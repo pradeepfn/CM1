@@ -83,10 +83,11 @@
 #CPP  = cpp -C -P -traditional
 #-----------------------------------------------------------------------------
 #  Linux and Mac, using g95 compiler, multiple processors, distributed memory using MPI
-#FC = mpif90
 #OPTS = -f90=g95 -ffree-form -I../include -O2
-#CPP = cpp -C -P -traditional
-#DM = -DMPI
+FC = mpif90
+OPTS = -I../include -O2 -cpp
+CPP = cpp -C
+DM = -DMPI
 #-----------------------------------------------------------------------------
 #  IBM POWER6, single processor
 #      (e.g., NCAR's bluefire)

@@ -3017,13 +3017,13 @@
     ! for MPI runs without procfiles, print the entire domain info:
     IF(.not.procfiles)THEN
       do i=1-ngxy,1-1
-        if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(1)+xfref(2))-0.5*(xfref(0)+xfref(1))),dx/(xfref(i+1)-xfref(i)),'   x'
+        !if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(1)+xfref(2))-0.5*(xfref(0)+xfref(1))),dx/(xfref(i+1)-xfref(i)),'   x'
       enddo
       do i=1,nx
-        if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(i)+xfref(i+1))-0.5*(xfref(i-1)+xfref(i))),dx/(xfref(i+1)-xfref(i)),'    '
+        !if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(i)+xfref(i+1))-0.5*(xfref(i-1)+xfref(i))),dx/(xfref(i+1)-xfref(i)),'    '
       enddo
       do i=nx+1,nx+ngxy
-        if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(nx+1)+xfref(nx+2))-0.5*(xfref(nx)+xfref(nx+1))),dx/(xfref(i+1)-xfref(i)),'   x'
+        !if(dowr) write(outfile,122) i,xfref(i),0.5*(xfref(i)+xfref(i+1)),xfref(i+1)-xfref(i),dx/(0.5*(xfref(nx+1)+xfref(nx+2))-0.5*(xfref(nx)+xfref(nx+1))),dx/(xfref(i+1)-xfref(i)),'   x'
       enddo
       if(dowr) write(outfile,123) nx+1+ngxy,xfref(nx+1+ngxy),dx/(0.5*(xfref(nx+1)+xfref(nx+2))-0.5*(xfref(nx)+xfref(nx+1)))
     ELSE
@@ -3261,13 +3261,13 @@
     ! for MPI runs without procfiles, print the entire domain info:
     IF(.not.procfiles)THEN
       do j=1-ngxy,1-1
-        if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(1)+yfref(2))-0.5*(yfref(0)+yfref(1))),dy/(yfref(j+1)-yfref(j)),'   x'
+        !if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(1)+yfref(2))-0.5*(yfref(0)+yfref(1))),dy/(yfref(j+1)-yfref(j)),'   x'
       enddo
       do j=1,ny
-        if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(j)+yfref(j+1))-0.5*(yfref(j-1)+yfref(j))),dy/(yfref(j+1)-yfref(j)),'    '
+        !if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(j)+yfref(j+1))-0.5*(yfref(j-1)+yfref(j))),dy/(yfref(j+1)-yfref(j)),'    '
       enddo
       do j=ny+1,ny+ngxy
-        if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(ny+1)+yfref(ny+2))-0.5*(yfref(ny)+yfref(ny+1))),dy/(yfref(j+1)-yfref(j)),'   x'
+        !if(dowr) write(outfile,122) j,yfref(j),0.5*(yfref(j)+yfref(j+1)),yfref(j+1)-yfref(j),dy/(0.5*(yfref(ny+1)+yfref(ny+2))-0.5*(yfref(ny)+yfref(ny+1))),dy/(yfref(j+1)-yfref(j)),'   x'
       enddo
       if(dowr) write(outfile,123) ny+1+ngxy,yfref(ny+1+ngxy),dy/(0.5*(yfref(ny+1)+yfref(ny+2))-0.5*(yfref(ny)+yfref(ny+1)))
     ELSE
