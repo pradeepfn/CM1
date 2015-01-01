@@ -85,7 +85,7 @@
 #  Linux and Mac, using g95 compiler, multiple processors, distributed memory using MPI
 #OPTS = -f90=g95 -ffree-form -I../include -O2
 FC = mpif90
-OPTS = -I../include -O2 -cpp
+OPTS = -I../include -I/home/pradeep/checkout/phoenix/include -L/home/pradeep/checkout/phoenix/lib -lphoenix -cpp
 CPP = cpp -C
 DM = -DMPI
 #-----------------------------------------------------------------------------
@@ -176,7 +176,8 @@ SRC   = adv.F \
 	ysu.F \
 	sfclay.F \
 	slab.F \
-	oml.F
+	oml.F \
+	allocate.F
 
 OBJS = $(addsuffix .o, $(basename $(SRC)))
 
