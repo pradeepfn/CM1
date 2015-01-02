@@ -1,6 +1,7 @@
 
 
       program cm1
+      use Allocator
       implicit none
 
 !-----------------------------------------------------------------------
@@ -56,7 +57,8 @@
       real, dimension(:,:,:), allocatable :: gx,gxu,gy,gyv
       real, dimension(:,:,:), allocatable :: rain,sws,svs,sps,srs,sgs,sus,shs
       logical, dimension(:,:), allocatable :: doimpl
-      real, dimension(:,:), allocatable :: tsk,thflux,qvflux,cdu,cdv,ce,u1,v1,w1
+      real, dimension(:,:), allocatable :: thflux,qvflux,cdu,cdv,ce,u1,v1,w1
+      real, pointer :: tsk(:,:)
       real, dimension(:,:), allocatable :: radbcw,radbce
       real, dimension(:,:), allocatable :: radbcs,radbcn
       real, dimension(:,:,:), allocatable :: dum1,dum2,dum3,dum4
@@ -141,6 +143,9 @@
       real mp_total
       real*8 tstart,tend
 #endif
+
+      CHARACTER(LEN=10) varname
+      integer cmtsize
 
       namelist /param0/ nx,ny,nz,nodex,nodey,timeformat,timestats,terrain_flag,procfiles
 
@@ -491,8 +496,11 @@
       allocate(    shs(ib:ie,jb:je,nrain) )
 
       allocate( doimpl(ib:ie,jb:je) )
-
-      allocate(    tsk(ib:ie,jb:je) )
+      
+      varname = "tsk"
+      cmtsize = (ie-ib+1)*(je-jb+1) 
+      call alloc_2d_real(tsk,(ie-ib+1),(je-jb+1),varname,myid,cmtsize)
+      !allocate(    tsk(ib:ie,jb:je) )
       allocate( thflux(ib:ie,jb:je) )
       allocate( qvflux(ib:ie,jb:je) )
       allocate(    cdu(ib:ie,jb:je) )

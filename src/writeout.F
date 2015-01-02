@@ -244,9 +244,9 @@
       s_out = s_out + 1
       varname(s_out) = 'ce      '
       vardesc(s_out) = 'exchange coeff for enthalpy   '
-      s_out = s_out + 1
-      varname(s_out) = 'tsk     '
-      vardesc(s_out) = 'soil/ocean temperature (K)    '
+      !s_out = s_out + 1
+      !varname(s_out) = 'tsk     '
+      !vardesc(s_out) = 'soil/ocean temperature (K)    '
     endif
     if(output_zs     .eq.1)then
       s_out = s_out + 1
@@ -1239,7 +1239,7 @@
                           cdu,cdv,ce,dum1,dum2,dum3,dum4,                                        &
                           t11,t12,rho,prs,dbz,ua,dumu,va,dumv,wa,dumw,ppi,tha,                   &
                           dissten,thpten,qvpten,qcpten,qipten,upten,vpten,                       &
-                          lu_index,xland,mavail,tsk,tmn,tml,hml,huml,hvml,hfx,qfx,gsw,glw,tslb,  &
+                          lu_index,xland,mavail,tmn,tml,hml,huml,hvml,hfx,qfx,gsw,glw,tslb,  &
                           qa,kmh,kmv,khh,khv,tkea,swten,lwten,radsw,rnflx,radswnet,radlwin,pta,  &
                           num_soil_layers,u10,v10,t2,q2,znt,ust,hpbl,zol,mol,br,dat1,dat2,dat3)
       implicit none
@@ -1278,7 +1278,7 @@
       real, dimension(ib:ie,jb:je,kb:ke), intent(in) :: dissten
       real, dimension(ibb:ieb,jbb:jeb,kbb:keb), intent(in) :: thpten,qvpten,qcpten,qipten,upten,vpten
       integer, dimension(ibl:iel,jbl:jel), intent(in) :: lu_index
-      real, dimension(ib:ie,jb:je), intent(in) :: tsk
+      !real, dimension(ib:ie,jb:je), intent(in) :: tsk
       real, dimension(ibl:iel,jbl:jel), intent(in) :: xland,mavail,tmn,tml,hml,huml,hvml,hfx,qfx,gsw,glw
       real, dimension(ibl:iel,jbl:jel,num_soil_layers), intent(in) :: tslb
       real, dimension(ibm:iem,jbm:jem,kbm:kem,numq), intent(in) :: qa
@@ -1626,11 +1626,11 @@
                     ni,nj,ngxy,myid,numprocs,nodex,nodey,irec,fnum, &
                     ncid,time_index,output_format,output_filetype,  &
                     dat1(1,1),dat2(1,1),dat3(1,1,1))
-      if(output_sfcflx.eq.1)                                        &
-        call writeo(ni,nj,1,1,nx,ny,tsk(ib,jb),'tsk     ',          &
-                    ni,nj,ngxy,myid,numprocs,nodex,nodey,irec,fnum, &
-                    ncid,time_index,output_format,output_filetype,  &
-                    dat1(1,1),dat2(1,1),dat3(1,1,1))
+      !if(output_sfcflx.eq.1)                                        &
+      !  call writeo(ni,nj,1,1,nx,ny,tsk(ib,jb),'tsk     ',          &
+      !              ni,nj,ngxy,myid,numprocs,nodex,nodey,irec,fnum, &
+      !              ncid,time_index,output_format,output_filetype,  &
+      !              dat1(1,1),dat2(1,1),dat3(1,1,1))
       if(output_zs  .eq.1)                                          &
         call writeo(ni,nj,1,1,nx,ny,zs(ib,jb),'zs      ',           &
                     ni,nj,ngxy,myid,numprocs,nodex,nodey,irec,fnum, &
@@ -2480,7 +2480,7 @@
 
       subroutine write_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers,      &
                                dt,mtime,radtim,qbudget,asq,bsq,                &
-                               rain,sws,svs,sps,srs,sgs,sus,shs,tsk,radbcw,radbce,radbcs,radbcn,     &
+                               rain,sws,svs,sps,srs,sgs,sus,shs,radbcw,radbce,radbcs,radbcn,     &
                                rho,prs,ua,va,wa,ppi,tha,                           &
                                qpten,qtten,qvten,qcten,qiten,qa,tkea,swten,lwten,  &
                                radsw,rnflx,radswnet,radlwin,rad2d,                 &
@@ -2504,7 +2504,7 @@
       real*8, dimension(nbudget) :: qbudget
       real*8, dimension(numq) :: asq,bsq
       real, dimension(ib:ie,jb:je,nrain) :: rain,sws,svs,sps,srs,sgs,sus,shs
-      real, dimension(ib:ie,jb:je) :: tsk
+      !real, dimension(ib:ie,jb:je) :: tsk
       real, dimension(jb:je,kb:ke) :: radbcw,radbce
       real, dimension(ib:ie,kb:ke) :: radbcs,radbcn
       real, dimension(ib:ie,jb:je,kb:ke) :: rho,prs
@@ -2576,7 +2576,7 @@
       write(50) sgs
       write(50) sus
       write(50) shs
-      write(50) tsk
+      !write(50) tsk
       write(50) rho
       write(50) prs
       write(50) ua
@@ -2692,7 +2692,7 @@
       subroutine read_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers,   &
                               stattim,taptim,rsttim,  &
                               dt,mtime,radtim,qbudget,asq,bsq,              &
-                              rain,sws,svs,sps,srs,sgs,sus,shs,tsk,radbcw,radbce,radbcs,radbcn,         &
+                              rain,sws,svs,sps,srs,sgs,sus,shs,radbcw,radbce,radbcs,radbcn,         &
                               rho,prs,ua,va,wa,ppi,tha,                            &
                               qpten,qtten,qvten,qcten,qiten,qa,tkea,swten,lwten,   &
                               radsw,rnflx,radswnet,radlwin,rad2d,                  &
@@ -2717,7 +2717,7 @@
       real*8, dimension(nbudget) :: qbudget
       real*8, dimension(numq) :: asq,bsq
       real, dimension(ib:ie,jb:je,nrain) :: rain,sws,svs,sps,srs,sgs,sus,shs
-      real, dimension(ib:ie,jb:je) :: tsk
+      !real, dimension(ib:ie,jb:je) :: tsk
       real, dimension(jb:je,kb:ke) :: radbcw,radbce
       real, dimension(ib:ie,kb:ke) :: radbcs,radbcn
       real, dimension(ib:ie,jb:je,kb:ke) :: rho,prs
@@ -2789,7 +2789,7 @@
       read(50) sgs
       read(50) sus
       read(50) shs
-      read(50) tsk
+      !read(50) tsk
       read(50) rho
       read(50) prs
       read(50) ua

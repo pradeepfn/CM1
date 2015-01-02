@@ -132,7 +132,7 @@ DM = -DMPI
 #-- You shouldn't need to change anything below here
 #-----------------------------------------------------------------------------
 
-SRC   = adv.F \
+SRC   = allocate.F  adv.F \
 	advaxi.F \
 	anelp.F \
 	base.F \
@@ -176,8 +176,7 @@ SRC   = adv.F \
 	ysu.F \
 	sfclay.F \
 	slab.F \
-	oml.F \
-	allocate.F
+	oml.F 
 
 OBJS = $(addsuffix .o, $(basename $(SRC)))
 

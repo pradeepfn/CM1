@@ -3718,6 +3718,7 @@
 
       if(rtime.ge.rsttim .and. rstfrq.gt.0)then
         nrst=nrst+1
+        call chkpt_all(myid)
         call write_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
                                dt,mtime,radtim,qbudget,asq,bsq,                &
                                rain,sws,svs,sps,srs,sgs,sus,shs,tsk,radbcw,radbce,radbcs,radbcn,     &

@@ -18,7 +18,7 @@
  dtl    =   7.500,
  timax  =  7200.0,
  tapfrq =   900.0,
- rstfrq = -3600.0,
+ rstfrq = 5,
  statfrq =   60.0,
  prclfrq =   60.0,
  /
