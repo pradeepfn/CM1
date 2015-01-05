@@ -2478,20 +2478,7 @@
 !ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
 
-      subroutine write_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers,      &
-                               dt,mtime,radtim,qbudget,asq,bsq,                &
-                               rain,sws,svs,sps,srs,sgs,sus,shs,radbcw,radbce,radbcs,radbcn,     &
-                               rho,prs,ua,va,wa,ppi,tha,                           &
-                               qpten,qtten,qvten,qcten,qiten,qa,tkea,swten,lwten,  &
-                               radsw,rnflx,radswnet,radlwin,rad2d,                 &
-                               lu_index,kpbl2d,psfc,u10,v10,hfx,qfx,xland,znt,ust, &
-                               hpbl,wspd,psim,psih,gz1oz0,br,                      &
-                               CHS,CHS2,CQS2,CPMM,ZOL,MAVAIL,                      &
-                               MOL,RMOL,REGIME,LH,FLHC,FLQC,QGH,                   &
-                               CK,CKA,CD,CDA,USTM,QSFC,T2,Q2,TH2,EMISS,THC,ALBD,   &
-                               f2d,gsw,glw,chklowq,capg,snowc,tslb,                &
-                               tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml,              &
-                               pta,pdata,rtime)
+      subroutine write_restart(nrad2d)
       implicit none
 
       include 'input.incl'
@@ -2692,18 +2679,8 @@
       subroutine read_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers,   &
                               stattim,taptim,rsttim,  &
                               dt,mtime,radtim,qbudget,asq,bsq,              &
-                              rain,sws,svs,sps,srs,sgs,sus,shs,radbcw,radbce,radbcs,radbcn,         &
                               rho,prs,ua,va,wa,ppi,tha,                            &
-                              qpten,qtten,qvten,qcten,qiten,qa,tkea,swten,lwten,   &
-                              radsw,rnflx,radswnet,radlwin,rad2d,                  &
-                               lu_index,kpbl2d,psfc,u10,v10,hfx,qfx,xland,znt,ust, &
-                               hpbl,wspd,psim,psih,gz1oz0,br,                      &
-                               CHS,CHS2,CQS2,CPMM,ZOL,MAVAIL,                      &
-                               MOL,RMOL,REGIME,LH,FLHC,FLQC,QGH,                   &
-                               CK,CKA,CD,CDA,USTM,QSFC,T2,Q2,TH2,EMISS,THC,ALBD,   &
-                               f2d,gsw,glw,chklowq,capg,snowc,tslb,                &
-                               tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml,              &
-                              pta,pdata,rtime)
+                              rtime)
       implicit none
 
       include 'input.incl'
@@ -2716,33 +2693,33 @@
       real*8 :: mtime,radtim
       real*8, dimension(nbudget) :: qbudget
       real*8, dimension(numq) :: asq,bsq
-      real, dimension(ib:ie,jb:je,nrain) :: rain,sws,svs,sps,srs,sgs,sus,shs
+      !real, dimension(ib:ie,jb:je,nrain) :: rain,sws,svs,sps,srs,sgs,sus,shs
       !real, dimension(ib:ie,jb:je) :: tsk
-      real, dimension(jb:je,kb:ke) :: radbcw,radbce
-      real, dimension(ib:ie,kb:ke) :: radbcs,radbcn
+      !real, dimension(jb:je,kb:ke) :: radbcw,radbce
+      !real, dimension(ib:ie,kb:ke) :: radbcs,radbcn
       real, dimension(ib:ie,jb:je,kb:ke) :: rho,prs
       real, dimension(ib:ie+1,jb:je,kb:ke) :: ua
       real, dimension(ib:ie,jb:je+1,kb:ke) :: va
       real, dimension(ib:ie,jb:je,kb:ke+1) :: wa
       real, dimension(ib:ie,jb:je,kb:ke) :: ppi,tha
-      real, dimension(ibm:iem,jbm:jem,kbm:kem) :: qpten,qtten,qvten,qcten,qiten
-      real, dimension(ibm:iem,jbm:jem,kbm:kem,numq) :: qa
-      real, dimension(ibt:iet,jbt:jet,kbt:ket) :: tkea
-      real, dimension(ibr:ier,jbr:jer,kbr:ker) :: swten,lwten
-      real, dimension(ni,nj) :: radsw,rnflx,radswnet,radlwin
-      real, dimension(ni,nj,nrad2d) :: rad2d
-      integer, intent(inout), dimension(ibl:iel,jbl:jel) :: lu_index
-      integer, intent(inout), dimension(ibl:iel,jbl:jel) :: kpbl2d
-      real, intent(inout), dimension(ibl:iel,jbl:jel) :: psfc,u10,v10,hfx,qfx,xland,znt,ust, &
-                                      hpbl,wspd,psim,psih,gz1oz0,br,          &
-                                      CHS,CHS2,CQS2,CPMM,ZOL,MAVAIL,          &
-                                      MOL,RMOL,REGIME,LH,FLHC,FLQC,QGH,   &
-                                      CK,CKA,CD,CDA,USTM,QSFC,T2,Q2,TH2,EMISS,THC,ALBD,   &
-                                      f2d,gsw,glw,chklowq,capg,snowc
-      real, intent(inout), dimension(ibl:iel,jbl:jel,num_soil_layers) :: tslb
-      real, intent(inout), dimension(ibl:iel,jbl:jel) :: tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml
-      real, dimension(ibp:iep,jbp:jep,kbp:kep,npt) :: pta
-      real, dimension(npvals,nparcels) :: pdata
+      !real, dimension(ibm:iem,jbm:jem,kbm:kem) :: qpten,qtten,qvten,qcten,qiten
+      !real, dimension(ibm:iem,jbm:jem,kbm:kem,numq) :: qa
+      !real, dimension(ibt:iet,jbt:jet,kbt:ket) :: tkea
+      !real, dimension(ibr:ier,jbr:jer,kbr:ker) :: swten,lwten
+      !real, dimension(ni,nj) :: radsw,rnflx,radswnet,radlwin
+      !real, dimension(ni,nj,nrad2d) :: rad2d
+      !integer, intent(inout), dimension(ibl:iel,jbl:jel) :: lu_index
+      !integer, intent(inout), dimension(ibl:iel,jbl:jel) :: kpbl2d
+      !real, intent(inout), dimension(ibl:iel,jbl:jel) :: psfc,u10,v10,hfx,qfx,xland,znt,ust, &
+      !                                hpbl,wspd,psim,psih,gz1oz0,br,          &
+      !                                CHS,CHS2,CQS2,CPMM,ZOL,MAVAIL,          &
+      !                                MOL,RMOL,REGIME,LH,FLHC,FLQC,QGH,   &
+      !                                CK,CKA,CD,CDA,USTM,QSFC,T2,Q2,TH2,EMISS,THC,ALBD,   &
+      !                                f2d,gsw,glw,chklowq,capg,snowc
+      !real, intent(inout), dimension(ibl:iel,jbl:jel,num_soil_layers) :: tslb
+      !real, intent(inout), dimension(ibl:iel,jbl:jel) :: tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml
+      !real, dimension(ibp:iep,jbp:jep,kbp:kep,npt) :: pta
+      !real, dimension(npvals,nparcels) :: pdata
       real rtime
 
       character*80 fname
@@ -2781,14 +2758,14 @@
       read(50) qbudget
       read(50) asq
       read(50) bsq
-      read(50) rain
-      read(50) sws
-      read(50) svs
-      read(50) sps
-      read(50) srs
-      read(50) sgs
-      read(50) sus
-      read(50) shs
+      !read(50) rain
+      !read(50) sws
+      !read(50) svs
+      !read(50) sps
+      !read(50) srs
+      !read(50) sgs
+      !read(50) sus
+      !read(50) shs
       !read(50) tsk
       read(50) rho
       read(50) prs
@@ -2799,82 +2776,82 @@
       read(50) tha
       if(imoist.eq.1) read(50) qa
       if(imoist.eq.1.and.neweqts.ge.1)then
-        read(50) qpten
-        read(50) qtten
-        read(50) qvten
-        read(50) qcten
-        if(ptype.eq.2) read(50) qiten
+        !read(50) qpten
+        !read(50) qtten
+        !read(50) qvten
+        !read(50) qcten
+        !if(ptype.eq.2) read(50) qiten
       endif
       if(iturb.eq.1) read(50) tkea
       if(radopt.eq.1)then
-        read(50) swten
-        read(50) lwten
-        read(50) radsw
-        read(50) rnflx
-        read(50) radswnet
-        read(50) radlwin
-        read(50) rad2d
+        !read(50) swten
+        !read(50) lwten
+        !read(50) radsw
+        !read(50) rnflx
+        !read(50) radswnet
+        !read(50) radlwin
+        !read(50) rad2d
       endif
       if((oceanmodel.eq.2).or.(ipbl.eq.1).or.(sfcmodel.ge.1))then
         ! I don't know how many of these are really needed in restart
         ! files, but let's include them all for now ... just to be safe
-        read(50) lu_index
-        read(50) kpbl2d
-        read(50) psfc
-        read(50) u10
-        read(50) v10
-        read(50) hfx
-        read(50) qfx
-        read(50) xland
-        read(50) znt
-        read(50) ust
-        read(50) hpbl
-        read(50) wspd
-        read(50) psim
-        read(50) psih
-        read(50) gz1oz0
-        read(50) br
-        read(50) CHS
-        read(50) CHS2
-        read(50) CQS2
-        read(50) CPMM
-        read(50) ZOL
-        read(50) MAVAIL
-        read(50) MOL
-        read(50) RMOL
-        read(50) REGIME
-        read(50) LH
-        read(50) TMN
-        read(50) FLHC
-        read(50) FLQC
-        read(50) QGH
-        read(50) CK
-        read(50) CKA
-        read(50) CD
-        read(50) CDA
-        read(50) USTM
-        read(50) QSFC
-        read(50) T2
-        read(50) Q2
-        read(50) TH2
-        read(50) EMISS
-        read(50) THC
-        read(50) ALBD
-        read(50) gsw
-        read(50) glw
-        read(50) chklowq
-        read(50) capg
-        read(50) snowc
-        read(50) tslb
+        !read(50) lu_index
+        !read(50) kpbl2d
+        !read(50) psfc
+        !read(50) u10
+        !read(50) v10
+        !read(50) hfx
+        !read(50) qfx
+        !read(50) xland
+        !read(50) znt
+        !read(50) ust
+        !read(50) hpbl
+        !read(50) wspd
+        !read(50) psim
+        !read(50) psih
+        !read(50) gz1oz0
+        !read(50) br
+        !read(50) CHS
+        !read(50) CHS2
+        !read(50) CQS2
+        !read(50) CPMM
+        !read(50) ZOL
+        !read(50) MAVAIL
+        !read(50) MOL
+        !read(50) RMOL
+        !read(50) REGIME
+        !read(50) LH
+        !read(50) TMN
+        !read(50) FLHC
+        !read(50) FLQC
+        !read(50) QGH
+        !read(50) CK
+        !read(50) CKA
+        !read(50) CD
+        !read(50) CDA
+        !read(50) USTM
+        !read(50) QSFC
+        !read(50) T2
+        !read(50) Q2
+        !read(50) TH2
+        !read(50) EMISS
+        !read(50) THC
+        !read(50) ALBD
+        !read(50) gsw
+        !read(50) glw
+        !read(50) chklowq
+        !read(50) capg
+        !read(50) snowc
+        !read(50) tslb
       endif
       if(oceanmodel.eq.2)then
-        read(50) tml
-        read(50) t0ml
-        read(50) hml
-        read(50) h0ml
-        read(50) huml
-        read(50) hvml
-        read(50) tmoml
+        !read(50) tml
+        !read(50) t0ml
+        !read(50) hml
+        !read(50) h0ml
+        !read(50) huml
+        !read(50) hvml
+        !read(50) tmoml
       endif
       if(iptra.eq.1) read(50) pta
       if(iprcl.eq.1)then

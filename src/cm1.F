@@ -26,12 +26,31 @@
 #ifdef MPI
       include 'mpif.h'
 #endif
+      CHARACTER(LEN=10) varname
+      integer  cmtsize
 
       integer :: nstep
+
       integer :: nrec,prec,nwrite,nrst
-      integer :: rbufsz,num_soil_layers,ndt
+
+      !integer, pointer :: nrec
+      !integer, pointer :: prec
+      !integer, pointer :: nwrite
+      !integer, pointer :: nrst
+
+      integer :: num_soil_layers,rbufsz,ndt
+
+      !integer, pointer :: num_soil_layers
+
       real :: dt,dtlast,th00s,thlr
+
+      !real, pointer :: dt
+
       real*8 :: mtime,stattim,taptim,rsttim,radtim,adt,acfl
+
+      !real*8, pointer :: mtime
+      !real*8, pointer :: radtim
+
       logical :: dodrag,dosfcflx
       logical, dimension(maxq) :: cloudvar,rhovar
       character*15 :: tdef
@@ -40,6 +59,11 @@
       real*8, dimension(:), allocatable :: bud,bud2
       real*8, dimension(:), allocatable :: qbudget
       real*8, dimension(:), allocatable :: asq,bsq
+
+      real*8, pointer :: qbudget(:)
+      real*8, pointer :: asq(:)
+      real*8, pointer :: bsq(:)
+
       real, dimension(:), allocatable :: xh,rxh,uh,ruh
       real, dimension(:), allocatable :: xf,rxf,uf,ruf
       real, dimension(:), allocatable :: yh,vh,rvh
@@ -55,44 +79,167 @@
       real, dimension(:,:,:), allocatable :: t0,rh0,qc0
       real, dimension(:,:), allocatable :: zs,gz,rgz,gzu,rgzu,gzv,rgzv,dzdx,dzdy
       real, dimension(:,:,:), allocatable :: gx,gxu,gy,gyv
-      real, dimension(:,:,:), allocatable :: rain,sws,svs,sps,srs,sgs,sus,shs
+      !real, dimension(:,:,:), allocatable :: rain,sws,svs,sps,srs,sgs,sus,shs
+
+      real, pointer :: rain(:,:,:)
+      real, pointer :: sws(:,:,:)
+      real, pointer :: svs(:,:,:)
+      real, pointer :: sps(:,:,:)
+      real, pointer :: srs(:,:,:)
+      real, pointer :: sgs(:,:,:)
+      real, pointer :: sus(:,:,:)
+      real, pointer :: shs(:,:,:)
+    
+
       logical, dimension(:,:), allocatable :: doimpl
       real, dimension(:,:), allocatable :: thflux,qvflux,cdu,cdv,ce,u1,v1,w1
+
       real, pointer :: tsk(:,:)
-      real, dimension(:,:), allocatable :: radbcw,radbce
-      real, dimension(:,:), allocatable :: radbcs,radbcn
+
+      !real, dimension(:,:), allocatable :: radbcw,radbce
+      !real, dimension(:,:), allocatable :: radbcs,radbcn
+
+      real, pointer :: radbcw(:,:)
+      real, pointer :: radbce(:,:)
+      real, pointer :: radbcs(:,:)
+      real, pointer :: radbcn(:,:)
+
       real, dimension(:,:,:), allocatable :: dum1,dum2,dum3,dum4
-      real, dimension(:,:,:), allocatable :: divx,rho,rr,rf,prs
+      real, dimension(:,:,:), allocatable :: divx,rr,rf
+
+      real,pointer :: rho(:,:,:)
+      real,pointer :: prs(:,:,:)
+
       real, dimension(:,:,:), allocatable :: t11,t12,t13,t22,t23,t33
-      real, dimension(:,:,:), allocatable :: rru,ua,u3d,uten,uten1
-      real, dimension(:,:,:), allocatable :: rrv,va,v3d,vten,vten1
-      real, dimension(:,:,:), allocatable :: rrw,wa,w3d,wten,wten1
-      real, dimension(:,:,:), allocatable :: ppi,pp3d,ppten,sten
-      real, dimension(:,:,:), allocatable :: tha,th3d,thten,thten1,thterm
-      real, dimension(:,:,:), allocatable :: qpten,qtten,qvten,qcten,qiten
-      real, dimension(:,:,:,:), allocatable :: qa,q3d,qten
+      real, dimension(:,:,:), allocatable :: rru,u3d,uten,uten1
+      real, dimension(:,:,:), allocatable :: rrv,v3d,vten,vten1
+      real, dimension(:,:,:), allocatable :: rrw,w3d,wten,wten1
+      real, dimension(:,:,:), allocatable :: pp3d,ppten,sten
+      real, dimension(:,:,:), allocatable :: th3d,thten,thten1,thterm
+
+      real,pointer :: ua(:,:,:)
+      real,pointer :: va(:,:,:)
+      real,pointer :: wa(:,:,:)
+      real,pointer :: ppi(:,:,:)
+      real,pointer :: tha(:,:,:)
+      
+
+      !real, dimension(:,:,:), allocatable :: qpten,qtten,qvten,qcten,qiten
+
+      real, pointer :: qpten(:,:,:)
+      real, pointer :: qtten(:,:,:)
+      real, pointer :: qvten(:,:,:)
+      real, pointer :: qcten(:,:,:)
+      real, pointer :: qiten(:,:,:)
+
+      real, dimension(:,:,:,:), allocatable :: q3d,qten
+
+      real, pointer :: qa(:,:,:,:)
+
       real, dimension(:,:,:,:), allocatable :: zvdarray
       real, dimension(:,:,:), allocatable :: kmh,kmv,khh,khv
-      real, dimension(:,:,:), allocatable :: tkea,tke3d,tketen
+      real, dimension(:,:,:), allocatable :: tke3d,tketen
+    
+      real, pointer :: tkea(:,:,:)
+
       real, dimension(:,:,:), allocatable :: dissten
       real, dimension(:,:,:), allocatable :: thpten,qvpten,qcpten,qipten,upten,vpten
-      real, dimension(:,:,:), allocatable :: swten,lwten,o30
-      real, dimension(:,:), allocatable :: radsw,rnflx,radswnet,radlwin
-      real, dimension(:,:,:), allocatable :: rad2d
+      real, dimension(:,:,:), allocatable :: o30
+
+      real, pointer :: swten(:,:,:)
+      real, pointer :: lwten(:,:,:)
+
+      !real, dimension(:,:), allocatable :: radsw,rnflx,radswnet,radlwin
+      !real, dimension(:,:,:), allocatable :: rad2d
+
+      real, pointer :: radsw(:,:)
+      real, pointer :: rnflx(:,:)
+      real, pointer :: radswnet(:,:)
+      real, pointer :: radlwin(:,:)
+
+      real, pointer :: rad2d(:,:,:)
+
       real, dimension(:), allocatable :: x,y,z,za
       real, dimension(:,:,:), allocatable :: zp
-      integer, dimension(:,:), allocatable :: lu_index,kpbl2d
-      real, dimension(:,:), allocatable :: psfc,u10,v10,hfx,qfx,xland,znt,ust, &
-                                      hpbl,wspd,psim,psih,gz1oz0,br,          &
-                                      CHS,CHS2,CQS2,CPMM,ZOL,MAVAIL,          &
-                                      MOL,RMOL,REGIME,LH,FLHC,FLQC,QGH,       &
-                                      CK,CKA,CD,CDA,USTM,QSFC,T2,Q2,TH2,EMISS,THC,ALBD,   &
-                                      f2d,gsw,glw,chklowq,capg,snowc,dsxy
+      !integer, dimension(:,:), allocatable :: lu_index,kpbl2d
+
+      integer, pointer :: lu_index(:,:)
+      integer, pointer :: kpbl2d(:,:)
+
+      real, dimension(:,:), allocatable :: dsxy
+
+
+      real, pointer :: psfc(:,:)
+      real, pointer :: u10(:,:)
+      real, pointer :: v10(:,:)
+      real, pointer :: hfx(:,:)
+      real, pointer :: qfx(:,:)
+      real, pointer :: xland(:,:)
+      real, pointer :: znt(:,:)
+      real, pointer :: ust(:,:)
+      real, pointer :: hpbl(:,:)
+      real, pointer :: wspd(:,:)
+      real, pointer :: psim(:,:)
+      real, pointer :: psih(:,:)
+      real, pointer :: gz1oz0(:,:)
+      real, pointer :: br(:,:)
+      real, pointer :: CHS(:,:)
+      real, pointer :: CHS2(:,:)
+      real, pointer :: CQS2(:,:)
+      real, pointer :: CPMM(:,:)
+      real, pointer :: ZOL(:,:)
+      real, pointer :: MAVAIL(:,:)
+      real, pointer :: MOL(:,:)
+      real, pointer :: RMOL(:,:)
+      real, pointer :: REGIME(:,:)
+      real, pointer :: LH(:,:)
+      real, pointer :: FLHC(:,:)
+      real, pointer :: FLQC(:,:)
+      real, pointer :: QGH(:,:)
+      real, pointer :: CK(:,:)
+      real, pointer :: CKA(:,:)
+      real, pointer :: CD(:,:)
+      real, pointer :: CDA(:,:)
+      real, pointer :: USTM(:,:)
+      real, pointer :: QSFC(:,:)
+      real, pointer :: T2(:,:)
+      real, pointer :: Q2(:,:)
+      real, pointer :: TH2(:,:)
+      real, pointer :: EMISS(:,:)
+      real, pointer :: THC(:,:)
+      real, pointer :: ALBD(:,:)
+      real, pointer :: f2d(:,:)
+      real, pointer :: gsw(:,:)
+      real, pointer :: glw(:,:)
+      real, pointer :: chklowq(:,:)
+      real, pointer :: capg(:,:)
+      real, pointer :: snowc(:,:)
+
+
       real, dimension(:), allocatable :: slab_zs,slab_dzs
-      real, dimension(:,:,:), allocatable :: tslb
-      real, dimension(:,:), allocatable :: tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml
-      real, dimension(:,:,:,:),  allocatable :: pta,pt3d,ptten
-      real, dimension(:,:),      allocatable :: pdata
+      !real, dimension(:,:,:), allocatable :: tslb
+
+      real, pointer :: tslb(:,:,:)
+
+      !real, dimension(:,:), allocatable :: tmn,tml,t0ml,hml,h0ml,huml,hvml,tmoml
+
+      real, pointer :: tmn(:,:)
+      real, pointer :: tml(:,:)
+      real, pointer :: t0ml(:,:)
+      real, pointer :: hml(:,:)
+      real, pointer :: h0ml(:,:)
+      real, pointer :: huml(:,:)
+      real, pointer :: hvml(:,:)
+      real, pointer :: tmoml(:,:)
+
+      real, dimension(:,:,:,:),  allocatable :: pt3d,ptten
+
+      real, pointer :: pta(:,:,:,:)
+
+      !real, dimension(:,:),      allocatable :: pdata
+
+      real, pointer :: pdata(:,:)
+
       real, dimension(:,:,:),    allocatable :: cfb
       real, dimension(:),        allocatable :: cfa,cfc,d1,d2
       complex, dimension(:,:,:), allocatable :: pdt,deft
@@ -134,7 +281,10 @@
 !-----
 
       integer count,rate,maxr
-      real rtime,xtime,time_solve
+      real xtime,time_solve,rtime
+
+      !real, pointer :: rtime
+
       real steptime1,steptime2
       integer :: i,j,k,n,nn,fnum
       real :: sum
@@ -144,8 +294,6 @@
       real*8 tstart,tend
 #endif
 
-      CHARACTER(LEN=10) varname
-      integer cmtsize
 
       namelist /param0/ nx,ny,nz,nodex,nodey,timeformat,timestats,terrain_flag,procfiles
 
@@ -486,21 +634,53 @@
 !----------------------------------------------------------------------
 !  Now, allocate the mother lode, then call INIT3D
 
-      allocate(   rain(ib:ie,jb:je,nrain) )
-      allocate(    sws(ib:ie,jb:je,nrain) )
-      allocate(    svs(ib:ie,jb:je,nrain) )
-      allocate(    sps(ib:ie,jb:je,nrain) )
-      allocate(    srs(ib:ie,jb:je,nrain) )
-      allocate(    sgs(ib:ie,jb:je,nrain) )
-      allocate(    sus(ib:ie,jb:je,nrain) )
+      !allocate(   rain(ib:ie,jb:je,nrain) )
+      varname = "rain"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(rain,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    sws(ib:ie,jb:je,nrain) )
+      varname = "sws"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(sws,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    svs(ib:ie,jb:je,nrain) )
+      varname = "svs"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(svs,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    sps(ib:ie,jb:je,nrain) )
+      varname = "sps"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(sps,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    srs(ib:ie,jb:je,nrain) )
+      varname = "srs"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(srs,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    sgs(ib:ie,jb:je,nrain) )
+      varname = "sgs"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(sgs,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
+      !allocate(    sus(ib:ie,jb:je,nrain) )
+      varname = "sus"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(sus,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
+
       allocate(    shs(ib:ie,jb:je,nrain) )
+      varname = "shs"
+      cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
+      call alloc_3d_real(shs,ie-ib+1,je-jb+1,nrain,varname,myid,cmtsize)     
 
       allocate( doimpl(ib:ie,jb:je) )
       
+      !allocate(    tsk(ib:ie,jb:je) )
       varname = "tsk"
       cmtsize = (ie-ib+1)*(je-jb+1) 
       call alloc_2d_real(tsk,(ie-ib+1),(je-jb+1),varname,myid,cmtsize)
-      !allocate(    tsk(ib:ie,jb:je) )
+
       allocate( thflux(ib:ie,jb:je) )
       allocate( qvflux(ib:ie,jb:je) )
       allocate(    cdu(ib:ie,jb:je) )
@@ -510,20 +690,47 @@
       allocate(     v1(ib:ie,jb:je) )
       allocate(     w1(ib:ie,jb:je) )
 
-      allocate( radbcw(jb:je,kb:ke) )
-      allocate( radbce(jb:je,kb:ke) )
-      allocate( radbcs(ib:ie,kb:ke) )
-      allocate( radbcn(ib:ie,kb:ke) )
+      !allocate( radbcw(jb:je,kb:ke) )
+      varname = "radbcw"
+      cmtsize = (je-jb+1)*(ke-kb+1) 
+      call alloc_2d_real(radbcw,(je-jb+1),(ke-kb+1),varname,myid,cmtsize)
+
+      !allocate( radbce(jb:je,kb:ke) )
+      varname = "radbce"
+      cmtsize = (je-jb+1)*(ke-kb+1) 
+      call alloc_2d_real(radbce,(je-jb+1),(ke-kb+1),varname,myid,cmtsize)
+
+      !allocate( radbcs(ib:ie,kb:ke) )
+      varname = "radbcs"
+      cmtsize = (ie-ib+1)*(ke-kb+1) 
+      call alloc_2d_real(radbcs,(ie-ib+1),(ke-kb+1),varname,myid,cmtsize)
+
+      !allocate( radbcn(ib:ie,kb:ke) )
+      varname = "radbcn"
+      cmtsize = (ie-ib+1)*(ke-kb+1) 
+      call alloc_2d_real(radbcn,(ie-ib+1),(ke-kb+1),varname,myid,cmtsize)
 
       allocate( dum1(ib:ie,jb:je,kb:ke) )
       allocate( dum2(ib:ie,jb:je,kb:ke) )
       allocate( dum3(ib:ie,jb:je,kb:ke) )
       allocate( dum4(ib:ie,jb:je,kb:ke) )
       allocate( divx(ib:ie,jb:je,kb:ke) )
-      allocate(  rho(ib:ie,jb:je,kb:ke) )
+
+      !allocate(  rho(ib:ie,jb:je,kb:ke) )
+      varname = "rho"
+      cmtsize = (ie-ib+1)*(je-jb+1)*(ke-kb+1)     
+      call alloc_3d_real(rho,ie-ib+1,je-jb+1,ke-kb+1,varname,myid,cmtsize)     
+
+
+
       allocate(   rr(ib:ie,jb:je,kb:ke) )
       allocate(   rf(ib:ie,jb:je,kb:ke) )
-      allocate(  prs(ib:ie,jb:je,kb:ke) )
+
+      !allocate(  prs(ib:ie,jb:je,kb:ke) )
+      varname = "prs"
+      cmtsize = (ie-ib+1)*(je-jb+1)*(ke-kb+1)     
+      call alloc_3d_real(prs,ie-ib+1,je-jb+1,ke-kb+1,varname,myid,cmtsize)     
+
       allocate(  t11(ib:ie,jb:je,kb:ke) )
       allocate(  t12(ib:ie,jb:je,kb:ke) )
       allocate(  t13(ib:ie,jb:je,kb:ke) )
@@ -532,26 +739,51 @@
       allocate(  t33(ib:ie,jb:je,kb:ke) )
 
       allocate(   rru(ib:ie+1,jb:je,kb:ke) )
-      allocate(    ua(ib:ie+1,jb:je,kb:ke) )
+
+      !allocate(    ua(ib:ie+1,jb:je,kb:ke) )
+      varname = "ua"
+      cmtsize = (ie-ib+2)*(je-jb+1)*(ke-kb+1)     
+      call alloc_3d_real(ua,ie-ib+2,je-jb+1,ke-kb+1,varname,myid,cmtsize)     
+
+
       allocate(   u3d(ib:ie+1,jb:je,kb:ke) )
       allocate(  uten(ib:ie+1,jb:je,kb:ke) )
       allocate( uten1(ib:ie+1,jb:je,kb:ke) )
       allocate(   rrv(ib:ie,jb:je+1,kb:ke) )
-      allocate(    va(ib:ie,jb:je+1,kb:ke) )
+
+      !allocate(    va(ib:ie,jb:je+1,kb:ke) )
+      varname = "va"
+      cmtsize = (ie-ib+1)*(je-jb+2)*(ke-kb+1)     
+      call alloc_3d_real(prs,ie-ib+1,je-jb+2,ke-kb+1,varname,myid,cmtsize)     
+
       allocate(   v3d(ib:ie,jb:je+1,kb:ke) )
       allocate(  vten(ib:ie,jb:je+1,kb:ke) )
       allocate( vten1(ib:ie,jb:je+1,kb:ke) )
       allocate(   rrw(ib:ie,jb:je,kb:ke+1) )
-      allocate(    wa(ib:ie,jb:je,kb:ke+1) )
+
+      !allocate(    wa(ib:ie,jb:je,kb:ke+1) )
+      varname = "wa"
+      cmtsize = (ie-ib+1)*(je-jb+1)*(ke-kb+2)     
+      call alloc_3d_real(wa,ie-ib+1,je-jb+1,ke-kb+2,varname,myid,cmtsize)     
+
       allocate(   w3d(ib:ie,jb:je,kb:ke+1) )
       allocate(  wten(ib:ie,jb:je,kb:ke+1) )
       allocate( wten1(ib:ie,jb:je,kb:ke+1) )
 
-      allocate(   ppi(ib:ie,jb:je,kb:ke) )
+      !allocate(   ppi(ib:ie,jb:je,kb:ke) )
+      varname = "ppi"
+      cmtsize = (ie-ib+1)*(je-jb+1)*(ke-kb+1)     
+      call alloc_3d_real(ppi,ie-ib+1,je-jb+1,ke-kb+1,varname,myid,cmtsize)     
+
       allocate(  pp3d(ib:ie,jb:je,kb:ke) )
       allocate( ppten(ib:ie,jb:je,kb:ke) )
       allocate(  sten(ib:ie,jb:je,kb:ke) )
-      allocate(   tha(ib:ie,jb:je,kb:ke) )
+
+      !allocate(   tha(ib:ie,jb:je,kb:ke) )
+      varname = "tha"
+      cmtsize = (ie-ib+1)*(je-jb+1)*(ke-kb+1)     
+      call alloc_3d_real(tha,ie-ib+1,je-jb+1,ke-kb+1,varname,myid,cmtsize)     
+
       allocate(  th3d(ib:ie,jb:je,kb:ke) )
       allocate( thten(ib:ie,jb:je,kb:ke) )
       allocate(thten1(ib:ie,jb:je,kb:ke) )
@@ -559,16 +791,55 @@
 
       allocate(   bud(nk) )
       allocate(  bud2(nj) )
-      allocate( qbudget(nbudget) )
-      allocate(    asq(numq) )
-      allocate(    bsq(numq) )
 
-      allocate(  qpten(ibm:iem,jbm:jem,kbm:kem) )
-      allocate(  qtten(ibm:iem,jbm:jem,kbm:kem) )
-      allocate(  qvten(ibm:iem,jbm:jem,kbm:kem) )
-      allocate(  qcten(ibm:iem,jbm:jem,kbm:kem) )
-      allocate(  qiten(ibm:iem,jbm:jem,kbm:kem) )
-      allocate(     qa(ibm:iem,jbm:jem,kbm:kem,numq) )
+      !allocate( qbudget(nbudget) )
+      cmtsize = nbudget
+      varname = "qbudget"
+      call alloc_1d_real8(qbudget,nbudget,varname,myid,cmtsize)
+
+      !allocate(    asq(numq) )
+      cmtsize = numq
+      varname = "asq"
+      call alloc_1d_real8(asq,numq,varname,myid,cmtsize)
+
+      !allocate(    bsq(numq) )
+      cmtsize = numq
+      varname = "bsq"
+      call alloc_1d_real8(bsq,numq,varname,myid,cmtsize)
+
+      !allocate(  qpten(ibm:iem,jbm:jem,kbm:kem) )
+      varname = "qpten"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
+      call alloc_3d_real(ppi,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+
+      !allocate(  qtten(ibm:iem,jbm:jem,kbm:kem) )
+      varname = "qtten"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
+      call alloc_3d_real(qtten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+
+      !allocate(  qvten(ibm:iem,jbm:jem,kbm:kem) )
+      varname = "qvten"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
+      call alloc_3d_real(qvten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+
+
+      !allocate(  qcten(ibm:iem,jbm:jem,kbm:kem) )
+      varname = "qcten"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
+      call alloc_3d_real(qcten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+
+      !allocate(  qiten(ibm:iem,jbm:jem,kbm:kem) )
+      varname = "qiten"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
+      call alloc_3d_real(qiten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+
+      !allocate(     qa(ibm:iem,jbm:jem,kbm:kem,numq) )
+      varname = "qa"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)*numq     
+      call alloc_4d_real(qiten,iem-ibm+1,jem-jbm+1,kem-kbm+1,numq,varname,myid,cmtsize)     
+
+
+
       allocate(    q3d(ibm:iem,jbm:jem,kbm:kem,numq) )
       allocate(   qten(ibm:iem,jbm:jem,kbm:kem,numq) )
       allocate( zvdarray(ibzvd:iezvd,jbzvd:jezvd,kbzvd:kezvd,nqzvd) )
@@ -576,7 +847,12 @@
       allocate(    kmv(ibc:iec,jbc:jec,kbc:kec) )
       allocate(    khh(ibc:iec,jbc:jec,kbc:kec) )
       allocate(    khv(ibc:iec,jbc:jec,kbc:kec) )
-      allocate(   tkea(ibt:iet,jbt:jet,kbt:ket) )
+
+      !allocate(   tkea(ibt:iet,jbt:jet,kbt:ket) )
+      varname = "tkea"
+      cmtsize = (iet-ibt+1)*(jet-jbt+1)*(ket-kbt+1)     
+      call alloc_3d_real(tkea,iet-ibt+1,jet-jbt+1,ket-kbt+1,varname,myid,cmtsize)     
+
       allocate(  tke3d(ibt:iet,jbt:jet,kbt:ket) )
       allocate( tketen(ibt:iet,jbt:jet,kbt:ket) )
 
@@ -589,8 +865,16 @@
       allocate(  upten(ibb:ieb,jbb:jeb,kbb:keb) )
       allocate(  vpten(ibb:ieb,jbb:jeb,kbb:keb) )
 
-      allocate( swten(ibr:ier,jbr:jer,kbr:ker) )
-      allocate( lwten(ibr:ier,jbr:jer,kbr:ker) )
+      !allocate( swten(ibr:ier,jbr:jer,kbr:ker) )
+      varname = "swten"
+      cmtsize = (ier-ibr+1)*(jer-jbr+1)*(ker-kbr+1)     
+      call alloc_3d_real(swten,ier-ibr+1,jer-jbr+1,ker-kbr+1,varname,myid,cmtsize)     
+
+      !allocate( lwten(ibr:ier,jbr:jer,kbr:ker) )
+      varname = "lwten"
+      cmtsize = (ier-ibr+1)*(jer-jbr+1)*(ker-kbr+1)     
+      call alloc_3d_real(lwten,ier-ibr+1,jer-jbr+1,ker-kbr+1,varname,myid,cmtsize)     
+
       allocate(   o30(ibr:ier,jbr:jer,kbr:ker) )
 
       nir = 1
@@ -603,11 +887,30 @@
         rbufsz = 1
       ENDIF
 
-      allocate(    rad2d(ni,nj,nrad2d) )
-      allocate(    radsw(ni,nj) )
-      allocate(    rnflx(ni,nj) )
-      allocate( radswnet(ni,nj) )
-      allocate(  radlwin(ni,nj) )
+      !allocate(    rad2d(ni,nj,nrad2d) )
+      varname = "rad2d"
+      cmtsize = ni*nj*nrad2d     
+      call alloc_3d_real(rad2d,ni,nj,nrad2d,varname,myid,cmtsize)     
+
+      !allocate(    radsw(ni,nj) )
+      varname = "radsw"
+      cmtsize = ni*nj     
+      call alloc_2d_real(radsw,ni,nj,varname,myid,cmtsize)     
+
+      !allocate(    rnflx(ni,nj) )
+      varname = "rnflx"
+      cmtsize = ni*nj     
+      call alloc_2d_real(rnflx,ni,nj,varname,myid,cmtsize)     
+
+      !allocate( radswnet(ni,nj) )
+      varname = "radswnet"
+      cmtsize = ni*nj     
+      call alloc_2d_real(radswnet,ni,nj,varname,myid,cmtsize)     
+
+      !allocate(  radlwin(ni,nj) )
+      varname = "radlwin"
+      cmtsize = ni*nj     
+      call alloc_2d_real(radlwin,ni,nj,varname,myid,cmtsize)     
 
       rad2d = 0.0
       radsw = 0.0
@@ -623,54 +926,246 @@
       allocate( za(nk+3) )
       allocate( zp(ni,nj,nk+3) )
 
-      allocate( lu_index(ibl:iel,jbl:jel) )
-      allocate(   kpbl2d(ibl:iel,jbl:jel) )
-      allocate(     psfc(ibl:iel,jbl:jel) )
-      allocate(      u10(ibl:iel,jbl:jel) )
-      allocate(      v10(ibl:iel,jbl:jel) )
-      allocate(      hfx(ibl:iel,jbl:jel) )
-      allocate(      qfx(ibl:iel,jbl:jel) )
-      allocate(    xland(ibl:iel,jbl:jel) )
-      allocate(      znt(ibl:iel,jbl:jel) )
-      allocate(      ust(ibl:iel,jbl:jel) )
-      allocate(     hpbl(ibl:iel,jbl:jel) )
-      allocate(     wspd(ibl:iel,jbl:jel) )
-      allocate(     psim(ibl:iel,jbl:jel) )
-      allocate(     psih(ibl:iel,jbl:jel) )
-      allocate(   gz1oz0(ibl:iel,jbl:jel) )
-      allocate(       br(ibl:iel,jbl:jel) )
-      allocate(      chs(ibl:iel,jbl:jel) )
-      allocate(     chs2(ibl:iel,jbl:jel) )
-      allocate(     cqs2(ibl:iel,jbl:jel) )
-      allocate(     cpmm(ibl:iel,jbl:jel) )
-      allocate(      zol(ibl:iel,jbl:jel) )
-      allocate(   mavail(ibl:iel,jbl:jel) )
-      allocate(      mol(ibl:iel,jbl:jel) )
-      allocate(     rmol(ibl:iel,jbl:jel) )
-      allocate(   regime(ibl:iel,jbl:jel) )
-      allocate(       lh(ibl:iel,jbl:jel) )
-      allocate(     flhc(ibl:iel,jbl:jel) )
-      allocate(     flqc(ibl:iel,jbl:jel) )
-      allocate(      qgh(ibl:iel,jbl:jel) )
-      allocate(       ck(ibl:iel,jbl:jel) )
-      allocate(      cka(ibl:iel,jbl:jel) )
-      allocate(       cd(ibl:iel,jbl:jel) )
-      allocate(      cda(ibl:iel,jbl:jel) )
-      allocate(     ustm(ibl:iel,jbl:jel) )
-      allocate(     qsfc(ibl:iel,jbl:jel) )
-      allocate(       t2(ibl:iel,jbl:jel) )
-      allocate(       q2(ibl:iel,jbl:jel) )
-      allocate(      th2(ibl:iel,jbl:jel) )
-      allocate(    emiss(ibl:iel,jbl:jel) )
-      allocate(      thc(ibl:iel,jbl:jel) )
-      allocate(     albd(ibl:iel,jbl:jel) )
-      allocate(      f2d(ibl:iel,jbl:jel) )
-      allocate(      gsw(ibl:iel,jbl:jel) )
-      allocate(      glw(ibl:iel,jbl:jel) )
-      allocate(  chklowq(ibl:iel,jbl:jel) )
-      allocate(     capg(ibl:iel,jbl:jel) )
-      allocate(    snowc(ibl:iel,jbl:jel) )
-      allocate(     dsxy(ibl:iel,jbl:jel) )
+      !allocate( lu_index(ibl:iel,jbl:jel) )
+      varname = "lu_index"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(lu_index,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(   kpbl2d(ibl:iel,jbl:jel) )
+      varname = "kpbl2d"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(kpbl2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+
+      !allocate(     psfc(ibl:iel,jbl:jel) )
+      varname = "psfc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(psfc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      u10(ibl:iel,jbl:jel) )
+      varname = "u10"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(u10,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      v10(ibl:iel,jbl:jel) )
+      varname = "v10"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(v10,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      hfx(ibl:iel,jbl:jel) )
+      varname = "hfx"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(hfx,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      qfx(ibl:iel,jbl:jel) )
+      varname = "qfx"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(qfx,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(    xland(ibl:iel,jbl:jel) )
+      varname = "xland"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(xland,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      znt(ibl:iel,jbl:jel) )
+      varname = "znt"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(znt,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      ust(ibl:iel,jbl:jel) )
+      varname = "ust"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(ust,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     hpbl(ibl:iel,jbl:jel) )
+      varname = "kpbl2d"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(kpbl2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     wspd(ibl:iel,jbl:jel) )
+      varname = "wspd"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(wspd,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     psim(ibl:iel,jbl:jel) )
+      varname = "psim"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(psim,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     psih(ibl:iel,jbl:jel) )
+      varname = "psih"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(psih,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(   gz1oz0(ibl:iel,jbl:jel) )
+      varname = "gz1oz0"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(gz1oz0,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       br(ibl:iel,jbl:jel) )
+      varname = "br"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(br,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      chs(ibl:iel,jbl:jel) )
+      varname = "chs"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(chs,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     chs2(ibl:iel,jbl:jel) )
+      varname = "chs2"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(chs2,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     cqs2(ibl:iel,jbl:jel) )
+      varname = "cqs2"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(cqs2,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     cpmm(ibl:iel,jbl:jel) )
+      varname = "cpmm"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(cpmm,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      zol(ibl:iel,jbl:jel) )
+      varname = "zol"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(zol,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(   mavail(ibl:iel,jbl:jel) )
+      varname = "mvail"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(mvail,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      mol(ibl:iel,jbl:jel) )
+      varname = "mol"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(mol,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     rmol(ibl:iel,jbl:jel) )
+      varname = "rmol"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(rmol,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(   regime(ibl:iel,jbl:jel) )
+      varname = "regime"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(regime,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       lh(ibl:iel,jbl:jel) )
+      varname = "lh"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(lh,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     flhc(ibl:iel,jbl:jel) )
+      varname = "flhc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(flhc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     flqc(ibl:iel,jbl:jel) )
+      varname = "flqc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(flqc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      qgh(ibl:iel,jbl:jel) )
+      varname = "qgh"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(qgh,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       ck(ibl:iel,jbl:jel) )
+      varname = "ck"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(ck,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      cka(ibl:iel,jbl:jel) )
+      varname = "cka"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(cka,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       cd(ibl:iel,jbl:jel) )
+      varname = "cd"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(cd,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      cda(ibl:iel,jbl:jel) )
+      varname = "cda"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(cda,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     ustm(ibl:iel,jbl:jel) )
+      varname = "ustm"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(ustm,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     qsfc(ibl:iel,jbl:jel) )
+      varname = "qsfc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(qsfc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       t2(ibl:iel,jbl:jel) )
+      varname = "t2"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(t2,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(       q2(ibl:iel,jbl:jel) )
+      varname = "q2"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(q2,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      th2(ibl:iel,jbl:jel) )
+      varname = "th2"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(th2,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(    emiss(ibl:iel,jbl:jel) )
+      varname = "emiss"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(emiss,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      thc(ibl:iel,jbl:jel) )
+      varname = "thc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(thc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     albd(ibl:iel,jbl:jel) )
+      varname = "albd"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(albd,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      f2d(ibl:iel,jbl:jel) )
+      varname = "f2d"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(f2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      gsw(ibl:iel,jbl:jel) )
+      varname = "gsw"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(gsw,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(      glw(ibl:iel,jbl:jel) )
+      varname = "glw"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(glw,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(  chklowq(ibl:iel,jbl:jel) )
+      varname = "chklowq"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(chklowq,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     capg(ibl:iel,jbl:jel) )
+      varname = "capg"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(capg,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(    snowc(ibl:iel,jbl:jel) )
+      varname = "snowc"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(snowc,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(     dsxy(ibl:iel,jbl:jel) )
+      varname = "dsxy"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(dsxy,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       ! start with very small, but non-zero, numbers:
       znt = 1.0e-6
@@ -687,19 +1182,53 @@
       allocate(   tmn(ibl:iel,jbl:jel) )
 
       ! arrays for oml model:
-      allocate(   tml(ibl:iel,jbl:jel) )
-      allocate(  t0ml(ibl:iel,jbl:jel) )
-      allocate(   hml(ibl:iel,jbl:jel) )
-      allocate(  h0ml(ibl:iel,jbl:jel) )
-      allocate(  huml(ibl:iel,jbl:jel) )
-      allocate(  hvml(ibl:iel,jbl:jel) )
-      allocate( tmoml(ibl:iel,jbl:jel) )
+      !allocate(   tml(ibl:iel,jbl:jel) )
+      varname = "tml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(tml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
-      allocate(    pta(ibp:iep,jbp:jep,kbp:kep,npt) )
+      !allocate(  t0ml(ibl:iel,jbl:jel) )
+      varname = "t0ml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(t0ml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(   hml(ibl:iel,jbl:jel) )
+      varname = "hml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(hml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(  h0ml(ibl:iel,jbl:jel) )
+      varname = "dsxy"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(dsxy,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(  huml(ibl:iel,jbl:jel) )
+      varname = "huml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(huml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(  hvml(ibl:iel,jbl:jel) )
+      varname = "hvml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(hvml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate( tmoml(ibl:iel,jbl:jel) )
+      varname = "tmoml"
+      cmtsize = (iel-ibl+1)*(jel-jbl+1)     
+      call alloc_2d_real(tmoml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+
+      !allocate(    pta(ibp:iep,jbp:jep,kbp:kep,npt) )
+      varname = "pta"
+      cmtsize = (iep-ibp+1)*(jep-jbp+1)*(kep-kbp+1)*npt     
+      call alloc_4d_real(pta,iel-ibl+1,jel-jbl+1,kep-kbp+1,npt,varname,myid,cmtsize)     
+
       allocate(   pt3d(ibp:iep,jbp:jep,kbp:kep,npt) )
       allocate(  ptten(ibp:iep,jbp:jep,kbp:kep,npt) )
 
-      allocate(  pdata(npvals,nparcels) )
+      !allocate(  pdata(npvals,nparcels) )
+      varname = "pdata"
+      cmtsize = (npvals)*(nparcels)     
+      call alloc_2d_real(pdata,npvals,nparcels,varname,myid,cmtsize)     
 
       allocate(    cfb(ipb:ipe,jpb:jpe,kpb:kpe) )
       allocate(    cfa(kpb:kpe) )
