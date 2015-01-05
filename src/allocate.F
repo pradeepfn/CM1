@@ -10,6 +10,32 @@ module Allocator
     end interface
 
     contains
+      subroutine alloc_real(arr,varname, mype)
+        real, pointer :: arr
+        type(c_ptr) :: cptr
+        integer :: val, nvsize 
+        character(len=10) varname
+        integer :: mype, cmtsize
+
+         val = SIZEOF(real)
+        nvsize = SIZEOF(real)
+        cptr = alloc(val,varname, mype, nvsize)
+        call c_f_pointer(cptr,arr)
+      end subroutine
+
+      subroutine alloc_integer(arr,varname, mype)
+        integer, pointer :: arr
+        type(c_ptr) :: cptr
+        integer :: val, nvsize 
+        character(len=10) varname
+        integer :: mype, cmtsize
+
+         val = SIZEOF(real)
+        nvsize = SIZEOF(real)
+        cptr = alloc(val,varname, mype, nvsize)
+        call c_f_pointer(cptr,arr)
+      end subroutine
+
       subroutine alloc_1d_real(arr,row,varname, mype, cmtsize)
         integer :: row
         real, pointer :: arr(:)
@@ -20,6 +46,20 @@ module Allocator
 
          val = row*SIZEOF(real)
         nvsize = cmtsize * SIZEOF(real)
+        cptr = alloc(val,varname, mype, nvsize)
+        call c_f_pointer(cptr,arr,[row])
+      end subroutine
+
+      subroutine alloc_1d_real8(arr,row,varname, mype, cmtsize)
+        integer :: row
+        real*8, pointer :: arr(:)
+        type(c_ptr) :: cptr
+        integer :: val, nvsize 
+        character(len=10) varname
+        integer :: mype, cmtsize
+
+         val = row*SIZEOF(real*8)
+        nvsize = cmtsize * SIZEOF(real*8)
         cptr = alloc(val,varname, mype, nvsize)
         call c_f_pointer(cptr,arr,[row])
       end subroutine
@@ -39,7 +79,41 @@ module Allocator
         call c_f_pointer(cptr,arr,[row,col])
       end subroutine
 
-      subroutine alloc_2d_int(arr,row,col,varname, mype, cmtsize)
+      subroutine alloc_3d_real(arr,row,col,z,varname, mype, cmtsize)
+        integer :: row 
+        integer :: col 
+        integer :: z
+        integer :: mype, cmtsize
+        real, pointer :: arr(:,:,:)
+        type(c_ptr) :: cptr
+        integer :: val, nvsize
+        character(len=10) varname
+
+         nvsize = cmtsize * SIZEOF(real)
+         val = row*col*z*SIZEOF(real)
+        cptr = alloc(val,varname, mype, nvsize)
+        call c_f_pointer(cptr,arr,[row,col,z])
+      end subroutine
+
+
+      subroutine alloc_4d_real(arr,row,col,z,k,varname, mype, cmtsize)
+        integer :: row
+        integer :: col
+        integer :: z
+        integer :: k
+        integer :: mype, cmtsize
+        real, pointer :: arr(:,:,:,:)
+        type(c_ptr) :: cptr
+        integer :: val, nvsize
+        character(len=10) varname
+
+         nvsize = cmtsize * SIZEOF(real)
+         val = row*col*z*k*SIZEOF(real)
+        cptr = alloc(val,varname, mype, nvsize)
+        call c_f_pointer(cptr,arr,[row,col,z,k])
+      end subroutine
+
+      subroutine alloc_2d_integer(arr,row,col,varname, mype, cmtsize)
         integer :: row
         integer :: col
         integer :: mype, cmtsize
@@ -73,21 +147,7 @@ module Allocator
 
 
 
-       subroutine alloc_3d_real(arr,row,col,z,varname, mype, cmtsize)
-        integer :: row
-        integer :: col
-        integer :: z
-        integer :: mype, cmtsize
-        real, pointer :: arr(:,:,:)
-        type(c_ptr) :: cptr
-        integer :: val, nvsize
-        character(len=10) varname
 
-         nvsize = cmtsize * SIZEOF(real)
-         val = row*col*z*SIZEOF(real)
-        cptr = alloc(val,varname, mype, nvsize)
-        call c_f_pointer(cptr,arr,[row,col,z])
-      end subroutine
 
       subroutine free_1d_real(arr)
         real, pointer :: arr(:)

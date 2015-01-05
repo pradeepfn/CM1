@@ -57,8 +57,8 @@
       character*3, dimension(maxq) :: qname
       character*6, dimension(maxq) :: budname
       real*8, dimension(:), allocatable :: bud,bud2
-      real*8, dimension(:), allocatable :: qbudget
-      real*8, dimension(:), allocatable :: asq,bsq
+      !real*8, dimension(:), allocatable :: qbudget
+      !real*8, dimension(:), allocatable :: asq,bsq
 
       real*8, pointer :: qbudget(:)
       real*8, pointer :: asq(:)
@@ -166,7 +166,8 @@
       integer, pointer :: lu_index(:,:)
       integer, pointer :: kpbl2d(:,:)
 
-      real, dimension(:,:), allocatable :: dsxy
+      !real, dimension(:,:), allocatable :: dsxy
+      real, pointer :: dsxy(:,:)
 
 
       real, pointer :: psfc(:,:)
@@ -836,7 +837,7 @@
       !allocate(     qa(ibm:iem,jbm:jem,kbm:kem,numq) )
       varname = "qa"
       cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)*numq     
-      call alloc_4d_real(qiten,iem-ibm+1,jem-jbm+1,kem-kbm+1,numq,varname,myid,cmtsize)     
+      call alloc_4d_real(qa,iem-ibm+1,jem-jbm+1,kem-kbm+1,numq,varname,myid,cmtsize)     
 
 
 
@@ -929,12 +930,12 @@
       !allocate( lu_index(ibl:iel,jbl:jel) )
       varname = "lu_index"
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
-      call alloc_2d_real(lu_index,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+      call alloc_2d_integer(lu_index,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       !allocate(   kpbl2d(ibl:iel,jbl:jel) )
       varname = "kpbl2d"
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
-      call alloc_2d_real(kpbl2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+      call alloc_2d_integer(kpbl2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
 
       !allocate(     psfc(ibl:iel,jbl:jel) )
@@ -978,9 +979,9 @@
       call alloc_2d_real(ust,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       !allocate(     hpbl(ibl:iel,jbl:jel) )
-      varname = "kpbl2d"
+      varname = "hpbl"
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
-      call alloc_2d_real(kpbl2d,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+      call alloc_2d_real(hpbl,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       !allocate(     wspd(ibl:iel,jbl:jel) )
       varname = "wspd"
@@ -1033,9 +1034,9 @@
       call alloc_2d_real(zol,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       !allocate(   mavail(ibl:iel,jbl:jel) )
-      varname = "mvail"
+      varname = "mavail"
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
-      call alloc_2d_real(mvail,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
+      call alloc_2d_real(mavail,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
       !allocate(      mol(ibl:iel,jbl:jel) )
       varname = "mol"
