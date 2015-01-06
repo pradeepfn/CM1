@@ -755,7 +755,7 @@
       !allocate(    va(ib:ie,jb:je+1,kb:ke) )
       varname = "va"
       cmtsize = (ie-ib+1)*(je-jb+2)*(ke-kb+1)     
-      call alloc_3d_real(prs,ie-ib+1,je-jb+2,ke-kb+1,varname,myid,cmtsize)     
+      call alloc_3d_real(va,ie-ib+1,je-jb+2,ke-kb+1,varname,myid,cmtsize)     
 
       allocate(   v3d(ib:ie,jb:je+1,kb:ke) )
       allocate(  vten(ib:ie,jb:je+1,kb:ke) )
@@ -811,7 +811,7 @@
       !allocate(  qpten(ibm:iem,jbm:jem,kbm:kem) )
       varname = "qpten"
       cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
-      call alloc_3d_real(ppi,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
+      call alloc_3d_real(qpten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
 
       !allocate(  qtten(ibm:iem,jbm:jem,kbm:kem) )
       varname = "qtten"
