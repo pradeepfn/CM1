@@ -86,7 +86,7 @@
 #OPTS = -f90=g95 -ffree-form -I../include -O2
 FC = mpif90 
 OPTS = -g -I../include -I/home/pradeep/checkout/phoenix/include -L/home/pradeep/checkout/phoenix/lib -lphoenix
-CPP = cpp -P -traditional
+CPP = cpp  -P -traditional
 DM = -DMPI
 #-----------------------------------------------------------------------------
 #  IBM POWER6, single processor

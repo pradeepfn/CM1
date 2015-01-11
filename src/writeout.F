@@ -1964,6 +1964,9 @@
         do k=1,nk
         do j=1,nj
         do i=1,ni
+          !print *, i,j,k,nqv
+          !print *, qa(i,j,k,nqv)
+          print *,"*************", qa(1,29,7,1)
           dum1(i,j,k)=qa(i,j,k,nqv)
         enddo
         enddo
