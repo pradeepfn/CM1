@@ -57,9 +57,9 @@ module Allocator
         integer :: val, nvsize 
         character(len=10) varname
         integer :: mype, cmtsize
-
-         val = row*SIZEOF(real*8)
-        nvsize = cmtsize * SIZEOF(real*8)
+        !sizeof(real*8) is hard coded as 8. expression didnt work
+         val = row * 8
+        nvsize = cmtsize * 8
         cptr = alloc(val,varname, mype, nvsize)
         call c_f_pointer(cptr,arr,[row])
       end subroutine

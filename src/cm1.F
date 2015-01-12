@@ -132,9 +132,10 @@
       real, pointer :: qcten(:,:,:)
       real, pointer :: qiten(:,:,:)
 
-      real, dimension(:,:,:,:), allocatable :: qa,q3d,qten
+      real, dimension(:,:,:,:), allocatable :: q3d,qten
 
-      !real, pointer :: qa(:,:,:,:)
+      !real, dimension(:,:,:,:), allocatable :: qa
+      real, pointer :: qa(:,:,:,:)
 
       real, dimension(:,:,:,:), allocatable :: zvdarray
       real, dimension(:,:,:), allocatable :: kmh,kmv,khh,khv
@@ -233,9 +234,10 @@
       real, pointer :: hvml(:,:)
       real, pointer :: tmoml(:,:)
 
-      real, dimension(:,:,:,:),  allocatable :: pta,pt3d,ptten
+      real, dimension(:,:,:,:),  allocatable :: pt3d,ptten
 
-      !real, pointer :: pta(:,:,:,:)
+      !real, dimension(:,:,:,:),  allocatable :: pta
+      real, pointer :: pta(:,:,:,:)
 
       !real, dimension(:,:),      allocatable :: pdata
 
@@ -794,6 +796,7 @@
       allocate(  bud2(nj) )
 
       !allocate( qbudget(nbudget) )
+      !print *, "************", sizeof(mtime)
       cmtsize = nbudget
       varname = "qbudget"
       call alloc_1d_real8(qbudget,nbudget,varname,myid,cmtsize)
@@ -834,12 +837,12 @@
       cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)     
       call alloc_3d_real(qiten,iem-ibm+1,jem-jbm+1,kem-kbm+1,varname,myid,cmtsize)     
 
-      allocate(     qa(ibm:iem,jbm:jem,kbm:kem,numq) )
-      print *, ibm,iem,jbm,jem,kbm,kem,numq
-      print *,"##################", qa(1,29,7,1)
-      !varname = "qa"
-      !cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)*numq     
-      !call alloc_4d_real(qa,iem-ibm+1,jem-jbm+1,kem-kbm+1,numq,varname,myid,cmtsize)     
+      !allocate(     qa(ibm:iem,jbm:jem,kbm:kem,numq) )
+      !print *, ibm,iem,jbm,jem,kbm,kem,numq
+      !print *,"##################", qa(1,29,7,1)
+      varname = "qa"
+      cmtsize = (iem-ibm+1)*(jem-jbm+1)*(kem-kbm+1)*numq     
+      call alloc_4d_real(qa,iem-ibm+1,jem-jbm+1,kem-kbm+1,numq,varname,myid,cmtsize)     
 
 
 
@@ -1220,10 +1223,10 @@
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
       call alloc_2d_real(tmoml,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
-      allocate(    pta(ibp:iep,jbp:jep,kbp:kep,npt) )
-      !varname = "pta"
-      !cmtsize = (iep-ibp+1)*(jep-jbp+1)*(kep-kbp+1)*npt     
-      !call alloc_4d_real(pta,iel-ibl+1,jel-jbl+1,kep-kbp+1,npt,varname,myid,cmtsize)     
+      !allocate(    pta(ibp:iep,jbp:jep,kbp:kep,npt) )
+      varname = "pta"
+      cmtsize = (iep-ibp+1)*(jep-jbp+1)*(kep-kbp+1)*npt     
+      call alloc_4d_real(pta,iel-ibl+1,jel-jbl+1,kep-kbp+1,npt,varname,myid,cmtsize)     
 
       allocate(   pt3d(ibp:iep,jbp:jep,kbp:kep,npt) )
       allocate(  ptten(ibp:iep,jbp:jep,kbp:kep,npt) )
@@ -1439,6 +1442,9 @@
       rtime=sngl(mtime)
       if(myid.eq.0)then
         if(timeformat.eq.1)then
+          print *, "before###################"
+          write(6,110) nstep,rtime,' sec '
+          print *, "after###################"
           write(6,110) nstep,rtime,' sec '
         elseif(timeformat.eq.2)then
           write(6,110) nstep,rtime/60.0,' min '
