@@ -2566,118 +2566,118 @@
       write(50) dt
       write(50) mtime
       write(50) radtim
-      write(50) qbudget
-      write(50) asq
-      write(50) bsq
-      write(50) rain
-      write(50) sws
-      write(50) svs
-      write(50) sps
-      write(50) srs
-      write(50) sgs
-      write(50) sus
-      write(50) shs
-      write(50) tsk
-      write(50) rho
-      write(50) prs
-      write(50) ua
-      write(50) va
-      write(50) wa
-      write(50) ppi
-      write(50) tha
-      if(imoist.eq.1) write(50) qa
-      if(imoist.eq.1.and.neweqts.ge.1)then
-        write(50) qpten
-        write(50) qtten
-        write(50) qvten
-        write(50) qcten
-        if(ptype.eq.2) write(50) qiten
-      endif
-      if(iturb.eq.1) write(50) tkea
-      if(radopt.eq.1)then
-        write(50) swten
-        write(50) lwten
-        write(50) radsw
-        write(50) rnflx
-        write(50) radswnet
-        write(50) radlwin
-        write(50) rad2d
-      endif
-      if((oceanmodel.eq.2).or.(ipbl.eq.1).or.(sfcmodel.ge.1))then
+      !write(50) qbudget
+      !write(50) asq
+      !write(50) bsq
+      !write(50) rain
+      !write(50) sws
+      !write(50) svs
+      !write(50) sps
+      !write(50) srs
+      !write(50) sgs
+      !write(50) sus
+      !write(50) shs
+      !write(50) tsk
+      !write(50) rho
+      !write(50) prs
+      !write(50) ua
+      !write(50) va
+      !write(50) wa
+      !write(50) ppi
+      !write(50) tha
+      !if(imoist.eq.1) write(50) qa
+      !if(imoist.eq.1.and.neweqts.ge.1)then
+      !  write(50) qpten
+      !  write(50) qtten
+      !  write(50) qvten
+      !  write(50) qcten
+      !  if(ptype.eq.2) write(50) qiten
+      !endif
+      !if(iturb.eq.1) write(50) tkea
+      !if(radopt.eq.1)then
+      !  write(50) swten
+      !  write(50) lwten
+      !  write(50) radsw
+      !  write(50) rnflx
+      !  write(50) radswnet
+      !  write(50) radlwin
+      !  write(50) rad2d
+      !endif
+      !if((oceanmodel.eq.2).or.(ipbl.eq.1).or.(sfcmodel.ge.1))then
         ! I don't know how many of these are really needed in restart
         ! files, but let's include them all for now ... just to be safe
-        write(50) lu_index
-        write(50) kpbl2d
-        write(50) psfc
-        write(50) u10
-        write(50) v10
-        write(50) hfx
-        write(50) qfx
-        write(50) xland
-        write(50) znt
-        write(50) ust
-        write(50) hpbl
-        write(50) wspd
-        write(50) psim
-        write(50) psih
-        write(50) gz1oz0
-        write(50) br
-        write(50) CHS
-        write(50) CHS2
-        write(50) CQS2
-        write(50) CPMM
-        write(50) ZOL
-        write(50) MAVAIL
-        write(50) MOL
-        write(50) RMOL
-        write(50) REGIME
-        write(50) LH
-        write(50) TMN
-        write(50) FLHC
-        write(50) FLQC
-        write(50) QGH
-        write(50) CK
-        write(50) CKA
-        write(50) CD
-        write(50) CDA
-        write(50) USTM
-        write(50) QSFC
-        write(50) T2
-        write(50) Q2
-        write(50) TH2
-        write(50) EMISS
-        write(50) THC
-        write(50) ALBD
-        write(50) gsw
-        write(50) glw
-        write(50) chklowq
-        write(50) capg
-        write(50) snowc
-        write(50) tslb
-      endif
-      if(oceanmodel.eq.2)then
-        write(50) tml
-        write(50) t0ml
-        write(50) hml
-        write(50) h0ml
-        write(50) huml
-        write(50) hvml
-        write(50) tmoml
-      endif
-      if(iptra.eq.1) write(50) pta
-      if(iprcl.eq.1)then
-        ! only write position info:
-        DO np=1,nparcels
-          pfoo(1,np)=pdata(1,np)
-          pfoo(2,np)=pdata(2,np)
-          pfoo(3,np)=pdata(3,np)
-        ENDDO
-        write(50) pfoo
-      endif
-      if(irbc.eq.4.and.ibw.eq.1) write(50) radbcw
-      if(irbc.eq.4.and.ibe.eq.1) write(50) radbce
-      if(irbc.eq.4.and.ibs.eq.1) write(50) radbcs
-      if(irbc.eq.4.and.ibn.eq.1) write(50) radbcn
+      !  write(50) lu_index
+      !  write(50) kpbl2d
+      !  write(50) psfc
+      !  write(50) u10
+      !  write(50) v10
+      !  write(50) hfx
+      !  write(50) qfx
+      !  write(50) xland
+      !  write(50) znt
+      !  write(50) ust
+      !  write(50) hpbl
+      !  write(50) wspd
+      !  write(50) psim
+      !  write(50) psih
+      !  write(50) gz1oz0
+      !  write(50) br
+      !  write(50) CHS
+      !  write(50) CHS2
+      !  write(50) CQS2
+      !  write(50) CPMM
+      !  write(50) ZOL
+      !  write(50) MAVAIL
+      !  write(50) MOL
+      !  write(50) RMOL
+      !  write(50) REGIME
+      !  write(50) LH
+      !  write(50) TMN
+      !  write(50) FLHC
+      !  write(50) FLQC
+      !  write(50) QGH
+      !  write(50) CK
+      !  write(50) CKA
+      !  write(50) CD
+      !  write(50) CDA
+      !  write(50) USTM
+      !  write(50) QSFC
+      !  write(50) T2
+      !  write(50) Q2
+      !  write(50) TH2
+      !  write(50) EMISS
+      !  write(50) THC
+      !  write(50) ALBD
+      !  write(50) gsw
+      !  write(50) glw
+      !  write(50) chklowq
+      !  write(50) capg
+      !  write(50) snowc
+      !  write(50) tslb
+      !endif
+      !if(oceanmodel.eq.2)then
+      !  write(50) tml
+      !  write(50) t0ml
+      !  write(50) hml
+      !  write(50) h0ml
+      !  write(50) huml
+      !  write(50) hvml
+      !  write(50) tmoml
+      !endif
+      !if(iptra.eq.1) write(50) pta
+      !if(iprcl.eq.1)then
+      !  ! only write position info:
+      !  DO np=1,nparcels
+      !    pfoo(1,np)=pdata(1,np)
+      !    pfoo(2,np)=pdata(2,np)
+      !    pfoo(3,np)=pdata(3,np)
+      !  ENDDO
+      !  write(50) pfoo
+      !endif
+      !if(irbc.eq.4.and.ibw.eq.1) write(50) radbcw
+      !if(irbc.eq.4.and.ibe.eq.1) write(50) radbce
+      !if(irbc.eq.4.and.ibs.eq.1) write(50) radbcs
+      !if(irbc.eq.4.and.ibn.eq.1) write(50) radbcn
 
       close(unit=50)
 
@@ -2779,118 +2779,118 @@
       read(50) dt
       read(50) mtime
       read(50) radtim
-      read(50) qbudget
-      read(50) asq
-      read(50) bsq
-      read(50) rain
-      read(50) sws
-      read(50) svs
-      read(50) sps
-      read(50) srs
-      read(50) sgs
-      read(50) sus
-      read(50) shs
-      read(50) tsk
-      read(50) rho
-      read(50) prs
-      read(50) ua
-      read(50) va
-      read(50) wa
-      read(50) ppi
-      read(50) tha
-      if(imoist.eq.1) read(50) qa
-      if(imoist.eq.1.and.neweqts.ge.1)then
-        read(50) qpten
-        read(50) qtten
-        read(50) qvten
-        read(50) qcten
-        if(ptype.eq.2) read(50) qiten
-      endif
-      if(iturb.eq.1) read(50) tkea
-      if(radopt.eq.1)then
-        read(50) swten
-        read(50) lwten
-        read(50) radsw
-        read(50) rnflx
-        read(50) radswnet
-        read(50) radlwin
-        read(50) rad2d
-      endif
-      if((oceanmodel.eq.2).or.(ipbl.eq.1).or.(sfcmodel.ge.1))then
-        ! I don't know how many of these are really needed in restart
-        ! files, but let's include them all for now ... just to be safe
-        read(50) lu_index
-        read(50) kpbl2d
-        read(50) psfc
-        read(50) u10
-        read(50) v10
-        read(50) hfx
-        read(50) qfx
-        read(50) xland
-        read(50) znt
-        read(50) ust
-        read(50) hpbl
-        read(50) wspd
-        read(50) psim
-        read(50) psih
-        read(50) gz1oz0
-        read(50) br
-        read(50) CHS
-        read(50) CHS2
-        read(50) CQS2
-        read(50) CPMM
-        read(50) ZOL
-        read(50) MAVAIL
-        read(50) MOL
-        read(50) RMOL
-        read(50) REGIME
-        read(50) LH
-        read(50) TMN
-        read(50) FLHC
-        read(50) FLQC
-        read(50) QGH
-        read(50) CK
-        read(50) CKA
-        read(50) CD
-        read(50) CDA
-        read(50) USTM
-        read(50) QSFC
-        read(50) T2
-        read(50) Q2
-        read(50) TH2
-        read(50) EMISS
-        read(50) THC
-        read(50) ALBD
-        read(50) gsw
-        read(50) glw
-        read(50) chklowq
-        read(50) capg
-        read(50) snowc
-        read(50) tslb
-      endif
-      if(oceanmodel.eq.2)then
-        read(50) tml
-        read(50) t0ml
-        read(50) hml
-        read(50) h0ml
-        read(50) huml
-        read(50) hvml
-        read(50) tmoml
-      endif
-      if(iptra.eq.1) read(50) pta
-      if(iprcl.eq.1)then
-        ! only read position info:
-        read(50) pfoo
-        DO np=1,nparcels
-          pdata(1,np)=pfoo(1,np)
-          pdata(2,np)=pfoo(2,np)
-          pdata(3,np)=pfoo(3,np)
-        ENDDO
-      endif
-      if(irbc.eq.4.and.ibw.eq.1) read(50) radbcw
-      if(irbc.eq.4.and.ibe.eq.1) read(50) radbce
-      if(irbc.eq.4.and.ibs.eq.1) read(50) radbcs
-      if(irbc.eq.4.and.ibn.eq.1) read(50) radbcn
+!      read(50) qbudget
+!      read(50) asq
+!      read(50) bsq
+!      read(50) rain
+!      read(50) sws
+!      read(50) svs
+!      read(50) sps
+!      read(50) srs
+!      read(50) sgs
+!      read(50) sus
+!      read(50) shs
+!      read(50) tsk
+!      read(50) rho
+!      read(50) prs
+!      read(50) ua
+!      read(50) va
+!      read(50) wa
+!      read(50) ppi
+!      read(50) tha
+!      if(imoist.eq.1) read(50) qa
+!      if(imoist.eq.1.and.neweqts.ge.1)then
+!        read(50) qpten
+!        read(50) qtten
+!        read(50) qvten
+!        read(50) qcten
+!        if(ptype.eq.2) read(50) qiten
+!      endif
+!      if(iturb.eq.1) read(50) tkea
+!      if(radopt.eq.1)then
+!        read(50) swten
+!        read(50) lwten
+!        read(50) radsw
+!        read(50) rnflx
+!        read(50) radswnet
+!        read(50) radlwin
+!        read(50) rad2d
+!      endif
+!      if((oceanmodel.eq.2).or.(ipbl.eq.1).or.(sfcmodel.ge.1))then
+!        ! I don't know how many of these are really needed in restart
+!        ! files, but let's include them all for now ... just to be safe
+!        read(50) lu_index
+!        read(50) kpbl2d
+!        read(50) psfc
+!        read(50) u10
+!        read(50) v10
+!        read(50) hfx
+!        read(50) qfx
+!        read(50) xland
+!        read(50) znt
+!        read(50) ust
+!        read(50) hpbl
+!        read(50) wspd
+!        read(50) psim
+!        read(50) psih
+!        read(50) gz1oz0
+!        read(50) br
+!        read(50) CHS
+!        read(50) CHS2
+!        read(50) CQS2
+!        read(50) CPMM
+!        read(50) ZOL
+!        read(50) MAVAIL
+!        read(50) MOL
+!        read(50) RMOL
+!        read(50) REGIME
+!        read(50) LH
+!        read(50) TMN
+!        read(50) FLHC
+!        read(50) FLQC
+!        read(50) QGH
+!        read(50) CK
+!        read(50) CKA
+!        read(50) CD
+!        read(50) CDA
+!        read(50) USTM
+!        read(50) QSFC
+!        read(50) T2
+!        read(50) Q2
+!        read(50) TH2
+!        read(50) EMISS
+!        read(50) THC
+!        read(50) ALBD
+!        read(50) gsw
+!        read(50) glw
+!        read(50) chklowq
+!        read(50) capg
+!        read(50) snowc
+!        read(50) tslb
+!      endif
+!      if(oceanmodel.eq.2)then
+!        read(50) tml
+!        read(50) t0ml
+!        read(50) hml
+!        read(50) h0ml
+!        read(50) huml
+!        read(50) hvml
+!        read(50) tmoml
+!      endif
+!      if(iptra.eq.1) read(50) pta
+!      if(iprcl.eq.1)then
+!        ! only read position info:
+!        read(50) pfoo
+!        DO np=1,nparcels
+!          pdata(1,np)=pfoo(1,np)
+!          pdata(2,np)=pfoo(2,np)
+!          pdata(3,np)=pfoo(3,np)
+!        ENDDO
+!      endif
+!      if(irbc.eq.4.and.ibw.eq.1) read(50) radbcw
+!      if(irbc.eq.4.and.ibe.eq.1) read(50) radbce
+!      if(irbc.eq.4.and.ibs.eq.1) read(50) radbcs
+!      if(irbc.eq.4.and.ibn.eq.1) read(50) radbcn
 
       close(unit=50)
 

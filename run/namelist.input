@@ -26,7 +26,7 @@
  &param2
  adapt_dt  =  0,
  irst      =  1,
- rstnum    =  1,
+ irst      =  3,
  iconly    =  0,
  hadvorder =  5,
  vadvorder =  5,

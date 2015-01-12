@@ -1442,9 +1442,6 @@
       rtime=sngl(mtime)
       if(myid.eq.0)then
         if(timeformat.eq.1)then
-          print *, "before###################"
-          write(6,110) nstep,rtime,' sec '
-          print *, "after###################"
           write(6,110) nstep,rtime,' sec '
         elseif(timeformat.eq.2)then
           write(6,110) nstep,rtime/60.0,' min '
