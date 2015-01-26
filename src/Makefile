@@ -85,7 +85,7 @@
 #  Linux and Mac, using g95 compiler, multiple processors, distributed memory using MPI
 #OPTS = -f90=g95 -ffree-form -I../include -O2
 FC = mpif90 
-OPTS = -g -I../include -I/home/pradeep/checkout/phoenix/include -L/home/pradeep/checkout/phoenix/lib -lphoenix
+OPTS = -g -I../include -I/net/hu21/pfernand/phoenix/include -L/net/hu21/pfernand/phoenix/lib -lphoenix
 CPP = cpp  -P -traditional
 DM = -DMPI
 #-----------------------------------------------------------------------------
