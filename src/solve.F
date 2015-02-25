@@ -3717,10 +3717,12 @@
 !-------------------------------------------------------------------
 
       if(rtime.ge.rsttim .and. rstfrq.gt.0)then
-       if(irst == 1)then 
+       if(irst /= 0)then 
           call end_timestamp()
        endif
-       if(myid==0)then
+       print *, '#########################################',irst
+       if(myid.eq.0)then
+         print *, 'reading in from notify file'
          open(456,file='notify/cm1.notify',status='old')
          read(456,101)notify
          if(notify==1)then
