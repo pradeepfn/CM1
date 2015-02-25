@@ -1,6 +1,6 @@
 #!/bin/bash
-node_x=3
-node_y=3
+node_x=4
+node_y=4
 
 let no_of_procs=$node_x*$node_y
 restart_freq=1000

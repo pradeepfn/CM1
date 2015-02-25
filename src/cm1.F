@@ -329,6 +329,9 @@
       call MPI_COMM_SIZE( MPI_COMM_WORLD, numprocs, ierr )
 #endif
 
+
+      call start_timestamp(myid)
+
 !----------------------------------------------------------------------
 !  Get domain dimensions, allocate some arrays, then call PARAM
 
@@ -1344,6 +1347,8 @@
                      ws31(1,1,1),ws32(1,1,1),wn31(1,1,1),wn32(1,1,1),reqs_s)
       endif
 
+      call make_timestamp()
+
       if(irst.eq.1)then
         call read_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
                               stattim,taptim,rsttim,  &
@@ -1564,7 +1569,8 @@
         clock_rate=1.0/rate
         xtime=mytime()
       endif
-
+     
+      call make_timestamp()
 !----------------------------------------------------------------------
 !  Time loop
 !  Iterations

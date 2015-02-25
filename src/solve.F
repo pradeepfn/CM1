@@ -120,7 +120,7 @@
 
 !-----------------------------------------------------------------------
 ! Arrays and variables passed into solve
-
+      integer :: notify
       integer, intent(in) :: nstep
       integer, intent(inout) :: nrec,prec,nwrite,nrst
       integer, intent(in) :: rbufsz,num_soil_layers
@@ -3717,6 +3717,21 @@
 !-------------------------------------------------------------------
 
       if(rtime.ge.rsttim .and. rstfrq.gt.0)then
+       if(irst == 1)then 
+          call end_timestamp()
+       endif
+       if(myid==0)then
+         open(456,file='notify/cm1.notify',status='old')
+         read(456,101)notify
+         if(notify==1)then
+           print *,'preparing to terminate...'
+           close(456)
+           call EXIT(1)
+         endif
+         close(456)
+       endif
+       101 format(i6)
+
         nrst=nrst+1
         call chkpt_all(myid)
         call write_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
