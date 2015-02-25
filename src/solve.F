@@ -3720,7 +3720,6 @@
        if(irst /= 0)then 
           call end_timestamp()
        endif
-       print *, '#########################################',irst
        if(myid.eq.0)then
          print *, 'reading in from notify file'
          open(456,file='notify/cm1.notify',status='old')
