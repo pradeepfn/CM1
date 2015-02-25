@@ -1,4 +1,5 @@
 #!/bin/bash
+echo 1>| notify/cm1.notify
 node_x=4
 node_y=4
 
