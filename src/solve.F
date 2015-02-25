@@ -3721,7 +3721,6 @@
           call end_timestamp()
        endif
        if(myid.eq.0)then
-         print *, 'reading in from notify file'
          open(456,file='notify/cm1.notify',status='old')
          read(456,101)notify
          if(notify==1)then
