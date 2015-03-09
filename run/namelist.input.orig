@@ -1,8 +1,8 @@
 
  &param0
- nx           =      60,
- ny           =      60,
- nz           =      40,
+ nx           =      400,
+ ny           =      400,
+ nz           =      200,
  nodex        =       1,
  nodey        =       1,
  timeformat   =       1,
