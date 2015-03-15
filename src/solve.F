@@ -3670,15 +3670,15 @@
           else
             fnum = 71
           endif
-          call writeout(fnum,nwrite,qname,xh,xf,uf,yh,yf,vf,xfref,yfref,                       &
-                        rds,sigma,rdsf,sigmaf,zh,zf,mf,pi0,prs0,rho0,th0,qv0,u0,v0,            &
-                        zs,rgzu,rgzv,rain,sws,svs,sps,srs,sgs,sus,shs,thflux,qvflux,           &
-                        cdu,cdv,ce,dum1,dum2,dum3,dum4,                                        &
-                        t11,t12,rho,prs,sten,ua,uten,va,vten,wa,wten,ppi,tha,                  &
-                        dissten,thpten,qvpten,qcpten,qipten,upten,vpten,                       &
-                        lu_index,xland,mavail,tsk,tmn,tml,hml,huml,hvml,hfx,qfx,gsw,glw,tslb,  &
-                        qa,kmh,kmv,khh,khv,tkea,swten,lwten,radsw,rnflx,radswnet,radlwin,pta,  &
-                        num_soil_layers,u10,v10,t2,q2,znt,ust,hpbl,zol,mol,br,dat1,dat2,dat3)
+!          call writeout(fnum,nwrite,qname,xh,xf,uf,yh,yf,vf,xfref,yfref,                       &
+!                        rds,sigma,rdsf,sigmaf,zh,zf,mf,pi0,prs0,rho0,th0,qv0,u0,v0,            &
+!                        zs,rgzu,rgzv,rain,sws,svs,sps,srs,sgs,sus,shs,thflux,qvflux,           &
+!                        cdu,cdv,ce,dum1,dum2,dum3,dum4,                                        &
+!                        t11,t12,rho,prs,sten,ua,uten,va,vten,wa,wten,ppi,tha,                  &
+!                        dissten,thpten,qvpten,qcpten,qipten,upten,vpten,                       &
+!                        lu_index,xland,mavail,tsk,tmn,tml,hml,huml,hvml,hfx,qfx,gsw,glw,tslb,  &
+!                        qa,kmh,kmv,khh,khv,tkea,swten,lwten,radsw,rnflx,radswnet,radlwin,pta,  &
+!                        num_soil_layers,u10,v10,t2,q2,znt,ust,hpbl,zol,mol,br,dat1,dat2,dat3)
         ENDDO
 #ifdef HDFOUT
       ELSEIF(output_format.ge.3)THEN
