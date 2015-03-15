@@ -938,7 +938,7 @@
 
 !-----------------------------------------------------------------------
 
-      call write_statsctl(tdef,qname,budname,1+nint(timax/max(statfrq,dtl)))
+     !call write_statsctl(tdef,qname,budname,1+nint(timax/max(statfrq,dtl)))
 
 !-----------------------------------------------------------------------
 !  Parcel data file:
