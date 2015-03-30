@@ -27,7 +27,8 @@
       include 'mpif.h'
 #endif
       CHARACTER(LEN=10) varname
-      integer  cmtsize
+      integer  :: cmtsize
+      integer :: notify
 
       integer :: nstep
 
@@ -1346,7 +1347,7 @@
                      ww31(1,1,1),ww32(1,1,1),we31(1,1,1),we32(1,1,1),                   &
                      ws31(1,1,1),ws32(1,1,1),wn31(1,1,1),wn32(1,1,1),reqs_s)
       endif
-
+      print *, "End of application init. starting restart calc"
       call make_timestamp()
 
       if(irst.eq.1)then
@@ -1569,8 +1570,25 @@
         clock_rate=1.0/rate
         xtime=mytime()
       endif
-     
+      
+      print *, "End of restart calc. Starting iterations" 
       call make_timestamp()
+
+      call MPI_BARRIER (MPI_COMM_WORLD,ierr)
+     if(irst /= 0) then 
+      if(myid.eq.0)then
+         open(456,file='notify/cm1.notify',status='old')
+         read(456,101)notify
+         if(notify==1)then
+           print *,'preparing to terminate...'
+           close(456)
+           call EXIT(1)
+         endif
+         close(456)
+       endif
+       101 format(i6)
+     endif
+
 !----------------------------------------------------------------------
 !  Time loop
 !  Iterations
