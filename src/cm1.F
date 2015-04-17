@@ -330,7 +330,7 @@
       call MPI_COMM_SIZE( MPI_COMM_WORLD, numprocs, ierr )
 #endif
 
-
+      call init(myid,numprocs)
       call start_timestamp(myid)
 
 !----------------------------------------------------------------------
