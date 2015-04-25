@@ -5,4 +5,4 @@ restartclean:
 
 remount:
 	sudo umount /mnt/ssd
-	sudo mount /dev/sdb4 /mnt/ssd
+	sudo mount /dev/sdb1 /mnt/ssd
