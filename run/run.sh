@@ -1,8 +1,9 @@
 #!/bin/bash
+echo 0 >| notify/cm1.notify
 
 
-node_x=2
-node_y=2
+node_x=3
+node_y=3
 
 let no_of_procs=$node_x*$node_y
 restart_freq=10

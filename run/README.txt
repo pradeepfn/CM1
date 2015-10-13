@@ -14,3 +14,9 @@ nodey
 params in namelist.input.orig  file.
 
 mpirun -np (nodex * nodey) ./cm1
+
+
+
+Important:
+
+the program reads the input file from every node.
