@@ -1,4 +1,4 @@
 
-restartclean:
-	rm -rf /mnt/ramdisk/mmap.*
+rclean:
+	rm -rf /home/pradeep/testmmap/*
 	rm -rf cm1out*
