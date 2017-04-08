@@ -85,7 +85,7 @@
 #  Linux and Mac, using g95 compiler, multiple processors, distributed memory using MPI
 #OPTS = -f90=g95 -ffree-form -I../include -O2
 FC = mpif90 
-OPTS = -g -I../include -I/net/hu21/pfernand/phoenix/include -L/net/hu21/pfernand/phoenix/lib -lphoenix -larmci
+OPTS = -g -I../include -I/net/hu21/pfernand/checkout/phoenix/include -L/net/hu21/pfernand/checkout/phoenix/lib  -lssl -lphoenix -larmci
 CPP = cpp  -P -traditional
 DM = -DMPI
 #-----------------------------------------------------------------------------
@@ -188,12 +188,16 @@ AR      = ar cru
 
 all : cm1
 
-cm1:			$(OBJS)
-			$(FC) $(OBJS) $(FFLAGS) $(OUTPUTINC) $(OUTPUTLIB) $(LINKOPTS) -o ../run/cm1.exe
+cm1:			$(OBJS) wrapper.o
+			$(FC) $(OBJS) wrapper.o $(FFLAGS) $(OUTPUTINC) $(OUTPUTLIB) $(LINKOPTS) -o ../run/cm1.exe
 
 .F.o:
 			$(CPP) $(DM) $(DP) $(ADV) $(OUTPUTOPT) $*.F > $*.f90
 			$(FC) $(FFLAGS) $(OUTPUTINC) -c $*.f90
+
+%.o: %.c
+			mpicc -g $(FFLAGS) -c $<
+
 
 code:
 			$(AR) onefile.F $(SRC)

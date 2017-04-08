@@ -3680,6 +3680,7 @@
 !                        qa,kmh,kmv,khh,khv,tkea,swten,lwten,radsw,rnflx,radswnet,radlwin,pta,  &
 !                        num_soil_layers,u10,v10,t2,q2,znt,ust,hpbl,zol,mol,br,dat1,dat2,dat3)
         ENDDO
+        CALL px_snapshot()
 #ifdef HDFOUT
       ELSEIF(output_format.ge.3)THEN
         call writeout_mult_hdf5(rtime,qname,rds,sigma,rdsf,sigmaf,xh,xf,uf,yh,yf,vf,mh,zh,mf,zf, &
@@ -3717,9 +3718,6 @@
 !-------------------------------------------------------------------
 
       if(rtime.ge.rsttim .and. rstfrq.gt.0)then
-       if(irst /= 0)then 
-          call end_timestamp()
-       endif
        if(myid.eq.0)then
          open(456,file='notify/cm1.notify',status='old')
          read(456,101)notify
@@ -3733,7 +3731,7 @@
        101 format(i6)
 
         nrst=nrst+1
-        call chkpt_all(myid)
+        call px_snapshot()
         call write_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
                                dt,mtime,radtim,qbudget,asq,bsq,                &
                                rain,sws,svs,sps,srs,sgs,sus,shs,tsk,radbcw,radbce,radbcs,radbcn,     &

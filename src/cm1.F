@@ -330,8 +330,7 @@
       call MPI_COMM_SIZE( MPI_COMM_WORLD, numprocs, ierr )
 #endif
 
-      call init(myid,numprocs)
-      call start_timestamp(myid)
+      call px_init(myid)
 
 !----------------------------------------------------------------------
 !  Get domain dimensions, allocate some arrays, then call PARAM
@@ -641,7 +640,6 @@
 !----------------------------------------------------------------------
 !  Now, allocate the mother lode, then call INIT3D
        
-      call start_time(myid)  
       !allocate(   rain(ib:ie,jb:je,nrain) )
       varname = "rain"
       cmtsize = (ie-ib+1)*(je-jb+1)*nrain     
@@ -810,7 +808,6 @@
       cmtsize = (ier-ibr+1)*(jer-jbr+1)*(ker-kbr+1)     
       call alloc_3d_real(lwten,ier-ibr+1,jer-jbr+1,ker-kbr+1,varname,myid,cmtsize)     
 
-      call pause_time()
 
       allocate( doimpl(ib:ie,jb:je) )
       allocate( thflux(ib:ie,jb:je) )
@@ -917,7 +914,6 @@
         rbufsz = 1
       ENDIF
 
-      call resume_time()
 
       !allocate(    rad2d(ni,nj,nrad2d) )
       varname = "rad2d"
@@ -944,7 +940,6 @@
       cmtsize = ni*nj     
       call alloc_2d_real(radlwin,ni,nj,varname,myid,cmtsize)     
 
-      call pause_time()
 
       rad2d = 0.0
       radsw = 0.0
@@ -960,7 +955,6 @@
       allocate( za(nk+3) )
       allocate( zp(ni,nj,nk+3) )
 
-      call resume_time()
 
       !allocate( lu_index(ibl:iel,jbl:jel) )
       varname = "lu_index"
@@ -1203,7 +1197,6 @@
       cmtsize = (iel-ibl+1)*(jel-jbl+1)     
       call alloc_2d_real(dsxy,iel-ibl+1,jel-jbl+1,varname,myid,cmtsize)     
 
-      call pause_time()
 
       ! start with very small, but non-zero, numbers:
       znt = 1.0e-6
@@ -1220,7 +1213,6 @@
       allocate(   tmn(ibl:iel,jbl:jel) )
 
 
-      call resume_time()
 
       ! arrays for oml model:
       !allocate(   tml(ibl:iel,jbl:jel) )
@@ -1271,7 +1263,6 @@
       cmtsize = (npvals)*(nparcels)     
       call alloc_2d_real(pdata,npvals,nparcels,varname,myid,cmtsize)     
 
-      call end_time()
 
       allocate(    cfb(ipb:ipe,jpb:jpe,kpb:kpe) )
       allocate(    cfa(kpb:kpe) )
@@ -1348,7 +1339,6 @@
                      ws31(1,1,1),ws32(1,1,1),wn31(1,1,1),wn32(1,1,1),reqs_s)
       endif
       print *, "End of application init. starting restart calc"
-      call make_timestamp()
 
       if(irst.eq.1)then
         call read_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
@@ -1572,7 +1562,6 @@
       endif
       
       print *, "End of restart calc. Starting iterations" 
-      call make_timestamp()
 
       call MPI_BARRIER (MPI_COMM_WORLD,ierr)
      if(irst /= 0) then 
