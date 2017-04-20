@@ -1338,7 +1338,7 @@
                      ww31(1,1,1),ww32(1,1,1),we31(1,1,1),we32(1,1,1),                   &
                      ws31(1,1,1),ws32(1,1,1),wn31(1,1,1),wn32(1,1,1),reqs_s)
       endif
-      print *, "End of application init. starting restart calc"
+      !print *, "End of application init. starting restart calc"
 
       if(irst.eq.1)then
         call read_restart(nstep,nrec,prec,nwrite,nrst,nrad2d,num_soil_layers, &
@@ -1561,22 +1561,22 @@
         xtime=mytime()
       endif
       
-      print *, "End of restart calc. Starting iterations" 
+      !print *, "End of restart calc. Starting iterations" 
 
       call MPI_BARRIER (MPI_COMM_WORLD,ierr)
-     if(irst /= 0) then 
-      if(myid.eq.0)then
-         open(456,file='notify/cm1.notify',status='old')
-         read(456,101)notify
-         if(notify==1)then
-           print *,'preparing to terminate...'
-           close(456)
-           call EXIT(1)
-         endif
-         close(456)
-       endif
-       101 format(i6)
-     endif
+     !if(irst /= 0) then 
+     ! if(myid.eq.0)then
+     !    open(456,file='notify/cm1.notify',status='old')
+     !    read(456,101)notify
+     !    if(notify==1)then
+     !      print *,'preparing to terminate...'
+     !      close(456)
+     !      call EXIT(1)
+     !    endif
+     !    close(456)
+     !  endif
+     !  101 format(i6)
+     !endif
 
 !----------------------------------------------------------------------
 !  Time loop
@@ -1660,7 +1660,7 @@
 
       IF( output_format.eq.1 .and. myid.eq.0 )THEN
         IF( adapt_dt.eq.1 .and. statfrq.lt.0.0 )THEN
-          print *,'  re-writing GrADS stats descriptor file .... '
+          !print *,'  re-writing GrADS stats descriptor file .... '
           call write_statsctl(tdef,qname,budname,nstep+1)
         ENDIF
       ENDIF
@@ -1912,6 +1912,7 @@
 !----------------------------------------------------------------------
 
 #ifdef MPI
+      call px_finalize()
       call MPI_FINALIZE(rc)
       print *,'Program terminated normally:  myid=',myid
 #else
