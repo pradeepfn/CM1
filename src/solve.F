@@ -3680,7 +3680,6 @@
 !                        qa,kmh,kmv,khh,khv,tkea,swten,lwten,radsw,rnflx,radswnet,radlwin,pta,  &
 !                        num_soil_layers,u10,v10,t2,q2,znt,ust,hpbl,zol,mol,br,dat1,dat2,dat3)
         ENDDO
-        CALL px_snapshot()
 #ifdef HDFOUT
       ELSEIF(output_format.ge.3)THEN
         call writeout_mult_hdf5(rtime,qname,rds,sigma,rdsf,sigmaf,xh,xf,uf,yh,yf,vf,mh,zh,mf,zf, &
