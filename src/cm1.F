@@ -1587,7 +1587,8 @@
         steptime2 = 0.0
       endif
 
-      do while( mtime.lt.timax )
+      !do while( mtime.lt.timax )
+      do while( nstep.lt.20)
         nstep = nstep + 1
         call solve(nstep,nrec,prec,nwrite,nrst,rbufsz,num_soil_layers,ndt,     &
                    dt,dtlast,th00s,thlr,mtime,stattim,taptim,rsttim,radtim,adt,acfl,  &
